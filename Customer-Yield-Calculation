@@ -1,1 +1,1958 @@
-{"metadata":{"kernelspec":{"language":"python","display_name":"Python 3","name":"python3"},"language_info":{"name":"python","version":"3.10.14","mimetype":"text/x-python","codemirror_mode":{"name":"ipython","version":3},"pygments_lexer":"ipython3","nbconvert_exporter":"python","file_extension":".py"},"kaggle":{"accelerator":"none","dataSources":[{"sourceId":9294057,"sourceType":"datasetVersion","datasetId":5626844}],"dockerImageVersionId":30761,"isInternetEnabled":true,"language":"python","sourceType":"notebook","isGpuEnabled":false}},"nbformat_minor":4,"nbformat":4,"cells":[{"cell_type":"code","source":"import pandas as pd\npd.set_option('display.max_columns', None)\n#Soru 1: persona.csvdosyasını okutunuz ve veri seti ile ilgili genel bilgileri gösteriniz.\ndf = pd.read_csv('/kaggle/input/persona/persona.csv')\ndf.head()\ndf.tail()\ndf.shape\ndf.info()\ndf.columns\ndf.index\ndf.describe().T\ndf.isnull().values.any()\ndf.isnull().sum()","metadata":{"_uuid":"8f2839f25d086af736a60e9eeb907d3b93b6e0e5","_cell_guid":"b1076dfc-b9ad-4769-8c92-a6c4dae69d19","execution":{"iopub.status.busy":"2024-09-01T12:56:17.516516Z","iopub.execute_input":"2024-09-01T12:56:17.516939Z","iopub.status.idle":"2024-09-01T12:56:17.548163Z","shell.execute_reply.started":"2024-09-01T12:56:17.516883Z","shell.execute_reply":"2024-09-01T12:56:17.547110Z"},"trusted":true},"execution_count":278,"outputs":[{"name":"stdout","text":"<class 'pandas.core.frame.DataFrame'>\nIndex: 5000 entries, 0 to 4999\nData columns (total 5 columns):\n #   Column   Non-Null Count  Dtype \n---  ------   --------------  ----- \n 0   PRICE    5000 non-null   int64 \n 1   SOURCE   5000 non-null   object\n 2   SEX      5000 non-null   object\n 3   COUNTRY  5000 non-null   object\n 4   AGE      5000 non-null   int64 \ndtypes: int64(2), object(3)\nmemory usage: 234.4+ KB\n","output_type":"stream"},{"execution_count":278,"output_type":"execute_result","data":{"text/plain":"PRICE      0\nSOURCE     0\nSEX        0\nCOUNTRY    0\nAGE        0\ndtype: int64"},"metadata":{}}]},{"cell_type":"code","source":"#Soru 2: Kaç uniqueSOURCE vardır? Frekansları nedir?\ndf[\"SOURCE\"].unique()\ndf[\"SOURCE\"].value_counts()","metadata":{"execution":{"iopub.status.busy":"2024-09-01T12:56:17.550291Z","iopub.execute_input":"2024-09-01T12:56:17.550736Z","iopub.status.idle":"2024-09-01T12:56:17.560911Z","shell.execute_reply.started":"2024-09-01T12:56:17.550686Z","shell.execute_reply":"2024-09-01T12:56:17.559677Z"},"trusted":true},"execution_count":279,"outputs":[{"execution_count":279,"output_type":"execute_result","data":{"text/plain":"SOURCE\nandroid    2974\nios        2026\nName: count, dtype: int64"},"metadata":{}}]},{"cell_type":"code","source":"#Soru 3:Kaç unique PRICE vardır?\ndf[\"PRICE\"].unique()\ndf[\"PRICE\"].nunique()","metadata":{"execution":{"iopub.status.busy":"2024-09-01T12:56:17.562757Z","iopub.execute_input":"2024-09-01T12:56:17.563155Z","iopub.status.idle":"2024-09-01T12:56:17.571675Z","shell.execute_reply.started":"2024-09-01T12:56:17.563102Z","shell.execute_reply":"2024-09-01T12:56:17.570532Z"},"trusted":true},"execution_count":280,"outputs":[{"execution_count":280,"output_type":"execute_result","data":{"text/plain":"6"},"metadata":{}}]},{"cell_type":"code","source":"#Soru 4:Hangi PRICE'dan kaçar tane satış gerçekleşmiş?\ndf[\"PRICE\"].value_counts()","metadata":{"execution":{"iopub.status.busy":"2024-09-01T12:56:17.573613Z","iopub.execute_input":"2024-09-01T12:56:17.574045Z","iopub.status.idle":"2024-09-01T12:56:17.584139Z","shell.execute_reply.started":"2024-09-01T12:56:17.574004Z","shell.execute_reply":"2024-09-01T12:56:17.582953Z"},"trusted":true},"execution_count":281,"outputs":[{"execution_count":281,"output_type":"execute_result","data":{"text/plain":"PRICE\n29    1305\n39    1260\n49    1031\n19     992\n59     212\n9      200\nName: count, dtype: int64"},"metadata":{}}]},{"cell_type":"code","source":"#Soru 5:Hangi ülkeden kaçar tane satış olmuş?\ndf[\"COUNTRY\"].value_counts()","metadata":{"execution":{"iopub.status.busy":"2024-09-01T12:56:17.585322Z","iopub.execute_input":"2024-09-01T12:56:17.585939Z","iopub.status.idle":"2024-09-01T12:56:17.596841Z","shell.execute_reply.started":"2024-09-01T12:56:17.585882Z","shell.execute_reply":"2024-09-01T12:56:17.595730Z"},"trusted":true},"execution_count":282,"outputs":[{"execution_count":282,"output_type":"execute_result","data":{"text/plain":"COUNTRY\nusa    2065\nbra    1496\ndeu     455\ntur     451\nfra     303\ncan     230\nName: count, dtype: int64"},"metadata":{}}]},{"cell_type":"code","source":"#Soru 6:Ülkelere göre satışlardan toplam ne kadar kazanılmış?\ndf.groupby(\"COUNTRY\")[\"PRICE\"].sum()","metadata":{"execution":{"iopub.status.busy":"2024-09-01T12:56:17.598866Z","iopub.execute_input":"2024-09-01T12:56:17.599273Z","iopub.status.idle":"2024-09-01T12:56:17.612234Z","shell.execute_reply.started":"2024-09-01T12:56:17.599234Z","shell.execute_reply":"2024-09-01T12:56:17.611086Z"},"trusted":true},"execution_count":283,"outputs":[{"execution_count":283,"output_type":"execute_result","data":{"text/plain":"COUNTRY\nbra    51354\ncan     7730\ndeu    15485\nfra    10177\ntur    15689\nusa    70225\nName: PRICE, dtype: int64"},"metadata":{}}]},{"cell_type":"code","source":"#Soru 7:SOURCE türlerine göre satış sayıları nedir?\ndf[\"SOURCE\"].value_counts()","metadata":{"execution":{"iopub.status.busy":"2024-09-01T12:56:17.613588Z","iopub.execute_input":"2024-09-01T12:56:17.614036Z","iopub.status.idle":"2024-09-01T12:56:17.624736Z","shell.execute_reply.started":"2024-09-01T12:56:17.613995Z","shell.execute_reply":"2024-09-01T12:56:17.623480Z"},"trusted":true},"execution_count":284,"outputs":[{"execution_count":284,"output_type":"execute_result","data":{"text/plain":"SOURCE\nandroid    2974\nios        2026\nName: count, dtype: int64"},"metadata":{}}]},{"cell_type":"code","source":"#Soru 8:Ülkelere göre PRICE ortalamaları nedir?\ndf.groupby(\"COUNTRY\")[\"PRICE\"].mean()\n#df.groupby(\"COUNTRY\").agg({\"PRICE\":\"mean\"})","metadata":{"execution":{"iopub.status.busy":"2024-09-01T12:56:17.626676Z","iopub.execute_input":"2024-09-01T12:56:17.627471Z","iopub.status.idle":"2024-09-01T12:56:17.639803Z","shell.execute_reply.started":"2024-09-01T12:56:17.627422Z","shell.execute_reply":"2024-09-01T12:56:17.638683Z"},"trusted":true},"execution_count":285,"outputs":[{"execution_count":285,"output_type":"execute_result","data":{"text/plain":"COUNTRY\nbra    34.327540\ncan    33.608696\ndeu    34.032967\nfra    33.587459\ntur    34.787140\nusa    34.007264\nName: PRICE, dtype: float64"},"metadata":{}}]},{"cell_type":"code","source":"#Soru 9:SOURCE'lara göre PRICE ortalamaları nedir?\ndf.groupby(\"SOURCE\").agg({\"PRICE\":\"mean\"})","metadata":{"execution":{"iopub.status.busy":"2024-09-01T12:56:17.640861Z","iopub.execute_input":"2024-09-01T12:56:17.641651Z","iopub.status.idle":"2024-09-01T12:56:17.656314Z","shell.execute_reply.started":"2024-09-01T12:56:17.641566Z","shell.execute_reply":"2024-09-01T12:56:17.655275Z"},"trusted":true},"execution_count":286,"outputs":[{"execution_count":286,"output_type":"execute_result","data":{"text/plain":"             PRICE\nSOURCE            \nandroid  34.174849\nios      34.069102","text/html":"<div>\n<style scoped>\n    .dataframe tbody tr th:only-of-type {\n        vertical-align: middle;\n    }\n\n    .dataframe tbody tr th {\n        vertical-align: top;\n    }\n\n    .dataframe thead th {\n        text-align: right;\n    }\n</style>\n<table border=\"1\" class=\"dataframe\">\n  <thead>\n    <tr style=\"text-align: right;\">\n      <th></th>\n      <th>PRICE</th>\n    </tr>\n    <tr>\n      <th>SOURCE</th>\n      <th></th>\n    </tr>\n  </thead>\n  <tbody>\n    <tr>\n      <th>android</th>\n      <td>34.174849</td>\n    </tr>\n    <tr>\n      <th>ios</th>\n      <td>34.069102</td>\n    </tr>\n  </tbody>\n</table>\n</div>"},"metadata":{}}]},{"cell_type":"code","source":"#Soru 10: COUNTRY-SOURCE kırılımında PRICE ortalamaları nedir?\ndf.groupby([\"COUNTRY\",\"SOURCE\"]).agg({\"PRICE\":\"mean\"})","metadata":{"execution":{"iopub.status.busy":"2024-09-01T12:56:17.657711Z","iopub.execute_input":"2024-09-01T12:56:17.658082Z","iopub.status.idle":"2024-09-01T12:56:17.673786Z","shell.execute_reply.started":"2024-09-01T12:56:17.658044Z","shell.execute_reply":"2024-09-01T12:56:17.672731Z"},"trusted":true},"execution_count":287,"outputs":[{"execution_count":287,"output_type":"execute_result","data":{"text/plain":"                     PRICE\nCOUNTRY SOURCE            \nbra     android  34.387029\n        ios      34.222222\ncan     android  33.330709\n        ios      33.951456\ndeu     android  33.869888\n        ios      34.268817\nfra     android  34.312500\n        ios      32.776224\ntur     android  36.229437\n        ios      33.272727\nusa     android  33.760357\n        ios      34.371703","text/html":"<div>\n<style scoped>\n    .dataframe tbody tr th:only-of-type {\n        vertical-align: middle;\n    }\n\n    .dataframe tbody tr th {\n        vertical-align: top;\n    }\n\n    .dataframe thead th {\n        text-align: right;\n    }\n</style>\n<table border=\"1\" class=\"dataframe\">\n  <thead>\n    <tr style=\"text-align: right;\">\n      <th></th>\n      <th></th>\n      <th>PRICE</th>\n    </tr>\n    <tr>\n      <th>COUNTRY</th>\n      <th>SOURCE</th>\n      <th></th>\n    </tr>\n  </thead>\n  <tbody>\n    <tr>\n      <th rowspan=\"2\" valign=\"top\">bra</th>\n      <th>android</th>\n      <td>34.387029</td>\n    </tr>\n    <tr>\n      <th>ios</th>\n      <td>34.222222</td>\n    </tr>\n    <tr>\n      <th rowspan=\"2\" valign=\"top\">can</th>\n      <th>android</th>\n      <td>33.330709</td>\n    </tr>\n    <tr>\n      <th>ios</th>\n      <td>33.951456</td>\n    </tr>\n    <tr>\n      <th rowspan=\"2\" valign=\"top\">deu</th>\n      <th>android</th>\n      <td>33.869888</td>\n    </tr>\n    <tr>\n      <th>ios</th>\n      <td>34.268817</td>\n    </tr>\n    <tr>\n      <th rowspan=\"2\" valign=\"top\">fra</th>\n      <th>android</th>\n      <td>34.312500</td>\n    </tr>\n    <tr>\n      <th>ios</th>\n      <td>32.776224</td>\n    </tr>\n    <tr>\n      <th rowspan=\"2\" valign=\"top\">tur</th>\n      <th>android</th>\n      <td>36.229437</td>\n    </tr>\n    <tr>\n      <th>ios</th>\n      <td>33.272727</td>\n    </tr>\n    <tr>\n      <th rowspan=\"2\" valign=\"top\">usa</th>\n      <th>android</th>\n      <td>33.760357</td>\n    </tr>\n    <tr>\n      <th>ios</th>\n      <td>34.371703</td>\n    </tr>\n  </tbody>\n</table>\n</div>"},"metadata":{}}]},{"cell_type":"code","source":"#Görev 2:  COUNTRY, SOURCE, SEX, AGE kırılımında ortalama kazançlar nedir?\ndf.groupby([\"COUNTRY\",\"SOURCE\",\"SEX\",\"AGE\"]).agg({\"PRICE\":\"mean\"})\n","metadata":{"execution":{"iopub.status.busy":"2024-09-01T12:56:17.732941Z","iopub.execute_input":"2024-09-01T12:56:17.733348Z","iopub.status.idle":"2024-09-01T12:56:17.752933Z","shell.execute_reply.started":"2024-09-01T12:56:17.733309Z","shell.execute_reply":"2024-09-01T12:56:17.751884Z"},"trusted":true},"execution_count":288,"outputs":[{"execution_count":288,"output_type":"execute_result","data":{"text/plain":"                                PRICE\nCOUNTRY SOURCE  SEX    AGE           \nbra     android female 15   38.714286\n                       16   35.944444\n                       17   35.666667\n                       18   32.255814\n                       19   35.206897\n...                               ...\nusa     ios     male   42   30.250000\n                       50   39.000000\n                       53   34.000000\n                       55   29.000000\n                       59   46.500000\n\n[348 rows x 1 columns]","text/html":"<div>\n<style scoped>\n    .dataframe tbody tr th:only-of-type {\n        vertical-align: middle;\n    }\n\n    .dataframe tbody tr th {\n        vertical-align: top;\n    }\n\n    .dataframe thead th {\n        text-align: right;\n    }\n</style>\n<table border=\"1\" class=\"dataframe\">\n  <thead>\n    <tr style=\"text-align: right;\">\n      <th></th>\n      <th></th>\n      <th></th>\n      <th></th>\n      <th>PRICE</th>\n    </tr>\n    <tr>\n      <th>COUNTRY</th>\n      <th>SOURCE</th>\n      <th>SEX</th>\n      <th>AGE</th>\n      <th></th>\n    </tr>\n  </thead>\n  <tbody>\n    <tr>\n      <th rowspan=\"5\" valign=\"top\">bra</th>\n      <th rowspan=\"5\" valign=\"top\">android</th>\n      <th rowspan=\"5\" valign=\"top\">female</th>\n      <th>15</th>\n      <td>38.714286</td>\n    </tr>\n    <tr>\n      <th>16</th>\n      <td>35.944444</td>\n    </tr>\n    <tr>\n      <th>17</th>\n      <td>35.666667</td>\n    </tr>\n    <tr>\n      <th>18</th>\n      <td>32.255814</td>\n    </tr>\n    <tr>\n      <th>19</th>\n      <td>35.206897</td>\n    </tr>\n    <tr>\n      <th>...</th>\n      <th>...</th>\n      <th>...</th>\n      <th>...</th>\n      <td>...</td>\n    </tr>\n    <tr>\n      <th rowspan=\"5\" valign=\"top\">usa</th>\n      <th rowspan=\"5\" valign=\"top\">ios</th>\n      <th rowspan=\"5\" valign=\"top\">male</th>\n      <th>42</th>\n      <td>30.250000</td>\n    </tr>\n    <tr>\n      <th>50</th>\n      <td>39.000000</td>\n    </tr>\n    <tr>\n      <th>53</th>\n      <td>34.000000</td>\n    </tr>\n    <tr>\n      <th>55</th>\n      <td>29.000000</td>\n    </tr>\n    <tr>\n      <th>59</th>\n      <td>46.500000</td>\n    </tr>\n  </tbody>\n</table>\n<p>348 rows × 1 columns</p>\n</div>"},"metadata":{}}]},{"cell_type":"code","source":"#Önceki sorudaki çıktıyı daha iyi görebilmek için sort_values metodunu azalan olacak şekilde PRICE’a göre uygulayınız.\n\n#Çıktıyı agg_df olarak kaydediniz.\n\nagg_df = df.groupby([\"COUNTRY\",\"SOURCE\",\"SEX\",\"AGE\"]).agg({\"PRICE\":\"mean\"}).sort_values(by='PRICE',ascending=False)","metadata":{"execution":{"iopub.status.busy":"2024-09-01T12:56:17.754809Z","iopub.execute_input":"2024-09-01T12:56:17.755169Z","iopub.status.idle":"2024-09-01T12:56:17.766004Z","shell.execute_reply.started":"2024-09-01T12:56:17.755132Z","shell.execute_reply":"2024-09-01T12:56:17.764841Z"},"trusted":true},"execution_count":289,"outputs":[]},{"cell_type":"code","source":"#Üçüncü sorunun çıktısında yer alan PRICE dışındaki tüm değişkenler index isimleridir. Bu isimleri değişken\n# isimlerine çeviriniz.\n\nagg_df=df.groupby([\"COUNTRY\",\"SOURCE\",\"SEX\",\"AGE\"]).agg({\"PRICE\":\"mean\"}).sort_values(by='PRICE',\n ascending=False).reset_index()\n\n#agg_df.reset_index()","metadata":{"execution":{"iopub.status.busy":"2024-09-01T12:56:17.767933Z","iopub.execute_input":"2024-09-01T12:56:17.768336Z","iopub.status.idle":"2024-09-01T12:56:17.785156Z","shell.execute_reply.started":"2024-09-01T12:56:17.768298Z","shell.execute_reply":"2024-09-01T12:56:17.784128Z"},"trusted":true},"execution_count":290,"outputs":[]},{"cell_type":"code","source":"# agg_df[\"AGE_CAT\"] = agg_df[\"AGE\"].astype('category')\n\n# def number_to_string(argument):\n#     match argument:\n#         case num if num in range(0,19):\n#             return \"0_18\"\n#         case num if num in range(19,24):\n#             return \"19_23\"\n#         case num if num in range(24,31):\n#             return \"24_30\"\n#         case num if num in range(31, 41):\n#             return \"31_40\"\n#         case default:\n#             return \"41_70\"\n\n# agg_df[\"AGE_CAT\"]=[number_to_string(col) for col in agg_df[\"AGE\"]]\n\n#age değişkeninin nerden bölüneceğini belirtelim.\nagg_df[\"AGE\"].describe()\n\n#age değişkeninin nerelerden bölüneceğini belirtelim.\nbins=[0,18,23,30,40,agg_df[\"AGE\"].max()]\n\n#bölünen noktalara karşılık isimlendirmelerin ne olacağını ifade edelim.\nmy_title=['0_18','19_23','24_30','31_40','41_'+str(agg_df[\"AGE\"].max())]\n\n#age bölelim.\nagg_df[\"AGE_CAT\"]=pd.cut(agg_df[\"AGE\"], bins, labels=my_title)\nagg_df.head()","metadata":{"execution":{"iopub.status.busy":"2024-09-01T12:56:17.786395Z","iopub.execute_input":"2024-09-01T12:56:17.786748Z","iopub.status.idle":"2024-09-01T12:56:17.809127Z","shell.execute_reply.started":"2024-09-01T12:56:17.786713Z","shell.execute_reply":"2024-09-01T12:56:17.807997Z"},"trusted":true},"execution_count":291,"outputs":[{"execution_count":291,"output_type":"execute_result","data":{"text/plain":"  COUNTRY   SOURCE     SEX  AGE  PRICE AGE_CAT\n0     bra  android    male   46   59.0   41_66\n1     usa  android    male   36   59.0   31_40\n2     fra  android  female   24   59.0   24_30\n3     usa      ios    male   32   54.0   31_40\n4     deu  android  female   36   49.0   31_40","text/html":"<div>\n<style scoped>\n    .dataframe tbody tr th:only-of-type {\n        vertical-align: middle;\n    }\n\n    .dataframe tbody tr th {\n        vertical-align: top;\n    }\n\n    .dataframe thead th {\n        text-align: right;\n    }\n</style>\n<table border=\"1\" class=\"dataframe\">\n  <thead>\n    <tr style=\"text-align: right;\">\n      <th></th>\n      <th>COUNTRY</th>\n      <th>SOURCE</th>\n      <th>SEX</th>\n      <th>AGE</th>\n      <th>PRICE</th>\n      <th>AGE_CAT</th>\n    </tr>\n  </thead>\n  <tbody>\n    <tr>\n      <th>0</th>\n      <td>bra</td>\n      <td>android</td>\n      <td>male</td>\n      <td>46</td>\n      <td>59.0</td>\n      <td>41_66</td>\n    </tr>\n    <tr>\n      <th>1</th>\n      <td>usa</td>\n      <td>android</td>\n      <td>male</td>\n      <td>36</td>\n      <td>59.0</td>\n      <td>31_40</td>\n    </tr>\n    <tr>\n      <th>2</th>\n      <td>fra</td>\n      <td>android</td>\n      <td>female</td>\n      <td>24</td>\n      <td>59.0</td>\n      <td>24_30</td>\n    </tr>\n    <tr>\n      <th>3</th>\n      <td>usa</td>\n      <td>ios</td>\n      <td>male</td>\n      <td>32</td>\n      <td>54.0</td>\n      <td>31_40</td>\n    </tr>\n    <tr>\n      <th>4</th>\n      <td>deu</td>\n      <td>android</td>\n      <td>female</td>\n      <td>36</td>\n      <td>49.0</td>\n      <td>31_40</td>\n    </tr>\n  </tbody>\n</table>\n</div>"},"metadata":{}}]},{"cell_type":"code","source":"#Yeni seviye tabanlı müşterileri (persona) tanımlayınız ve veri setine değişken olarak ekleyiniz.\n# Yeni eklenecek değişkenin adı: customers_level_based\n# Önceki soruda elde edeceğiniz çıktıdaki gözlemleri bir araya getirerek customers_level_based değişkenini\n# oluşturmanız gerekmektedir.\n\ncustomers_level_based=[a.upper()+\"_\"+b.upper()+\"_\"+c.upper()+\"_\"+d for a,b,c,d in zip(agg_df['COUNTRY'],df['SOURCE'],agg_df['SEX'],agg_df['AGE_CAT'].astype(str))]\n\nagg_df[\"customers_level_based\"]=customers_level_based\nagg_df=agg_df[[\"customers_level_based\",\"PRICE\"]]\n\nfor i in agg_df[\"customers_level_based\"].values:\n    print(i.split(\"_\"))\n\nagg_df.head()\n\n\n\n#agg_df.groupby(\"customers_level_based\").agg({\"PRICE\": \"mean\"})\n#agg_df=agg_df[[\"customers_level_based\",\"PRICE\"]]\n#agg_df.reset_index()\n\n#agg_df.head()\n\n#agg_df[\"customers_level_based\"].value_counts()","metadata":{"execution":{"iopub.status.busy":"2024-09-01T12:56:17.811607Z","iopub.execute_input":"2024-09-01T12:56:17.812594Z","iopub.status.idle":"2024-09-01T12:56:17.833527Z","shell.execute_reply.started":"2024-09-01T12:56:17.812538Z","shell.execute_reply":"2024-09-01T12:56:17.832300Z"},"trusted":true},"execution_count":292,"outputs":[{"name":"stdout","text":"['BRA', 'ANDROID', 'MALE', '41', '66']\n['USA', 'ANDROID', 'MALE', '31', '40']\n['FRA', 'ANDROID', 'FEMALE', '24', '30']\n['USA', 'ANDROID', 'MALE', '31', '40']\n['DEU', 'ANDROID', 'FEMALE', '31', '40']\n['DEU', 'ANDROID', 'FEMALE', '41', '66']\n['DEU', 'ANDROID', 'MALE', '19', '23']\n['USA', 'ANDROID', 'FEMALE', '41', '66']\n['FRA', 'ANDROID', 'MALE', '19', '23']\n['USA', 'ANDROID', 'MALE', '41', '66']\n['DEU', 'ANDROID', 'MALE', '0', '18']\n['BRA', 'ANDROID', 'FEMALE', '24', '30']\n['USA', 'ANDROID', 'FEMALE', '41', '66']\n['TUR', 'ANDROID', 'MALE', '24', '30']\n['DEU', 'ANDROID', 'MALE', '31', '40']\n['TUR', 'ANDROID', 'FEMALE', '0', '18']\n['BRA', 'ANDROID', 'FEMALE', '41', '66']\n['BRA', 'ANDROID', 'FEMALE', '19', '23']\n['TUR', 'ANDROID', 'FEMALE', '31', '40']\n['BRA', 'IOS', 'FEMALE', '31', '40']\n['TUR', 'IOS', 'MALE', '31', '40']\n['TUR', 'IOS', 'MALE', '0', '18']\n['USA', 'IOS', 'MALE', '24', '30']\n['BRA', 'IOS', 'MALE', '41', '66']\n['DEU', 'ANDROID', 'MALE', '19', '23']\n['USA', 'ANDROID', 'MALE', '24', '30']\n['TUR', 'ANDROID', 'FEMALE', '0', '18']\n['USA', 'ANDROID', 'MALE', '41', '66']\n['TUR', 'ANDROID', 'MALE', '24', '30']\n['USA', 'ANDROID', 'FEMALE', '41', '66']\n['FRA', 'ANDROID', 'MALE', '19', '23']\n['USA', 'ANDROID', 'MALE', '31', '40']\n['TUR', 'ANDROID', 'FEMALE', '0', '18']\n['FRA', 'ANDROID', 'MALE', '0', '18']\n['TUR', 'ANDROID', 'FEMALE', '19', '23']\n['TUR', 'ANDROID', 'FEMALE', '31', '40']\n['TUR', 'ANDROID', 'MALE', '24', '30']\n['FRA', 'ANDROID', 'MALE', '19', '23']\n['BRA', 'ANDROID', 'MALE', '24', '30']\n['CAN', 'ANDROID', 'MALE', '24', '30']\n['CAN', 'ANDROID', 'MALE', '19', '23']\n['USA', 'ANDROID', 'MALE', '41', '66']\n['TUR', 'ANDROID', 'MALE', '24', '30']\n['BRA', 'ANDROID', 'MALE', '31', '40']\n['BRA', 'ANDROID', 'MALE', '0', '18']\n['USA', 'ANDROID', 'FEMALE', '19', '23']\n['TUR', 'ANDROID', 'MALE', '41', '66']\n['BRA', 'ANDROID', 'FEMALE', '19', '23']\n['USA', 'ANDROID', 'MALE', '41', '66']\n['BRA', 'ANDROID', 'FEMALE', '24', '30']\n['DEU', 'ANDROID', 'FEMALE', '31', '40']\n['DEU', 'ANDROID', 'MALE', '0', '18']\n['FRA', 'ANDROID', 'FEMALE', '19', '23']\n['FRA', 'ANDROID', 'MALE', '31', '40']\n['TUR', 'ANDROID', 'FEMALE', '31', '40']\n['FRA', 'IOS', 'MALE', '41', '66']\n['BRA', 'IOS', 'FEMALE', '31', '40']\n['TUR', 'IOS', 'MALE', '0', '18']\n['BRA', 'IOS', 'FEMALE', '41', '66']\n['TUR', 'IOS', 'MALE', '0', '18']\n['TUR', 'IOS', 'FEMALE', '41', '66']\n['BRA', 'IOS', 'FEMALE', '0', '18']\n['USA', 'IOS', 'MALE', '19', '23']\n['USA', 'IOS', 'FEMALE', '0', '18']\n['FRA', 'IOS', 'MALE', '31', '40']\n['TUR', 'IOS', 'MALE', '0', '18']\n['DEU', 'IOS', 'MALE', '31', '40']\n['USA', 'IOS', 'FEMALE', '24', '30']\n['DEU', 'ANDROID', 'FEMALE', '0', '18']\n['CAN', 'ANDROID', 'MALE', '0', '18']\n['CAN', 'ANDROID', 'MALE', '41', '66']\n['BRA', 'IOS', 'FEMALE', '24', '30']\n['TUR', 'IOS', 'FEMALE', '24', '30']\n['CAN', 'IOS', 'MALE', '0', '18']\n['BRA', 'IOS', 'MALE', '31', '40']\n['FRA', 'IOS', 'FEMALE', '0', '18']\n['DEU', 'IOS', 'FEMALE', '0', '18']\n['CAN', 'IOS', 'FEMALE', '0', '18']\n['TUR', 'IOS', 'FEMALE', '19', '23']\n['DEU', 'IOS', 'MALE', '19', '23']\n['BRA', 'IOS', 'FEMALE', '19', '23']\n['USA', 'IOS', 'FEMALE', '31', '40']\n['BRA', 'IOS', 'MALE', '19', '23']\n['BRA', 'IOS', 'MALE', '0', '18']\n['BRA', 'IOS', 'MALE', '24', '30']\n['USA', 'ANDROID', 'MALE', '24', '30']\n['TUR', 'ANDROID', 'FEMALE', '19', '23']\n['DEU', 'ANDROID', 'MALE', '41', '66']\n['BRA', 'ANDROID', 'FEMALE', '41', '66']\n['BRA', 'ANDROID', 'MALE', '0', '18']\n['USA', 'ANDROID', 'FEMALE', '24', '30']\n['BRA', 'ANDROID', 'FEMALE', '0', '18']\n['BRA', 'ANDROID', 'MALE', '31', '40']\n['FRA', 'ANDROID', 'FEMALE', '0', '18']\n['USA', 'ANDROID', 'MALE', '19', '23']\n['BRA', 'ANDROID', 'FEMALE', '0', '18']\n['BRA', 'ANDROID', 'MALE', '41', '66']\n['BRA', 'ANDROID', 'FEMALE', '24', '30']\n['USA', 'ANDROID', 'MALE', '24', '30']\n['TUR', 'ANDROID', 'FEMALE', '41', '66']\n['USA', 'ANDROID', 'FEMALE', '24', '30']\n['DEU', 'ANDROID', 'FEMALE', '24', '30']\n['CAN', 'ANDROID', 'MALE', '0', '18']\n['BRA', 'ANDROID', 'FEMALE', '0', '18']\n['TUR', 'ANDROID', 'MALE', '24', '30']\n['USA', 'ANDROID', 'MALE', '41', '66']\n['USA', 'IOS', 'FEMALE', '19', '23']\n['USA', 'IOS', 'FEMALE', '19', '23']\n['FRA', 'IOS', 'MALE', '19', '23']\n['FRA', 'ANDROID', 'MALE', '41', '66']\n['BRA', 'ANDROID', 'MALE', '41', '66']\n['TUR', 'IOS', 'MALE', '19', '23']\n['BRA', 'IOS', 'FEMALE', '24', '30']\n['USA', 'IOS', 'FEMALE', '31', '40']\n['USA', 'IOS', 'FEMALE', '24', '30']\n['BRA', 'IOS', 'FEMALE', '0', '18']\n['TUR', 'IOS', 'FEMALE', '19', '23']\n['DEU', 'IOS', 'FEMALE', '0', '18']\n['USA', 'IOS', 'MALE', '41', '66']\n['BRA', 'IOS', 'MALE', '19', '23']\n['DEU', 'IOS', 'MALE', '31', '40']\n['BRA', 'ANDROID', 'FEMALE', '31', '40']\n['BRA', 'ANDROID', 'FEMALE', '41', '66']\n['BRA', 'ANDROID', 'MALE', '24', '30']\n['DEU', 'ANDROID', 'FEMALE', '24', '30']\n['BRA', 'ANDROID', 'MALE', '0', '18']\n['BRA', 'ANDROID', 'MALE', '19', '23']\n['USA', 'ANDROID', 'FEMALE', '41', '66']\n['BRA', 'IOS', 'MALE', '19', '23']\n['BRA', 'IOS', 'FEMALE', '19', '23']\n['USA', 'IOS', 'MALE', '0', '18']\n['BRA', 'IOS', 'FEMALE', '31', '40']\n['USA', 'IOS', 'MALE', '24', '30']\n['BRA', 'IOS', 'FEMALE', '31', '40']\n['USA', 'IOS', 'FEMALE', '19', '23']\n['USA', 'ANDROID', 'FEMALE', '31', '40']\n['FRA', 'ANDROID', 'MALE', '19', '23']\n['DEU', 'ANDROID', 'FEMALE', '19', '23']\n['CAN', 'ANDROID', 'MALE', '0', '18']\n['DEU', 'ANDROID', 'MALE', '0', '18']\n['USA', 'ANDROID', 'FEMALE', '41', '66']\n['DEU', 'ANDROID', 'MALE', '24', '30']\n['BRA', 'ANDROID', 'FEMALE', '19', '23']\n['USA', 'ANDROID', 'FEMALE', '0', '18']\n['BRA', 'ANDROID', 'MALE', '19', '23']\n['USA', 'IOS', 'MALE', '19', '23']\n['TUR', 'IOS', 'MALE', '0', '18']\n['USA', 'IOS', 'FEMALE', '24', '30']\n['USA', 'IOS', 'MALE', '0', '18']\n['BRA', 'IOS', 'MALE', '31', '40']\n['USA', 'ANDROID', 'MALE', '19', '23']\n['USA', 'ANDROID', 'MALE', '31', '40']\n['USA', 'ANDROID', 'MALE', '31', '40']\n['USA', 'ANDROID', 'FEMALE', '41', '66']\n['USA', 'IOS', 'MALE', '0', '18']\n['FRA', 'IOS', 'FEMALE', '0', '18']\n['USA', 'IOS', 'FEMALE', '0', '18']\n['USA', 'IOS', 'MALE', '0', '18']\n['BRA', 'IOS', 'FEMALE', '31', '40']\n['USA', 'IOS', 'FEMALE', '31', '40']\n['TUR', 'IOS', 'FEMALE', '0', '18']\n['DEU', 'IOS', 'FEMALE', '24', '30']\n['USA', 'IOS', 'MALE', '0', '18']\n['USA', 'IOS', 'MALE', '24', '30']\n['BRA', 'IOS', 'FEMALE', '24', '30']\n['USA', 'IOS', 'FEMALE', '19', '23']\n['BRA', 'IOS', 'FEMALE', '41', '66']\n['DEU', 'IOS', 'FEMALE', '19', '23']\n['USA', 'IOS', 'MALE', '24', '30']\n['FRA', 'ANDROID', 'MALE', '24', '30']\n['BRA', 'ANDROID', 'FEMALE', '24', '30']\n['CAN', 'ANDROID', 'FEMALE', '41', '66']\n['USA', 'ANDROID', 'FEMALE', '19', '23']\n['USA', 'ANDROID', 'MALE', '19', '23']\n['BRA', 'ANDROID', 'MALE', '19', '23']\n['TUR', 'ANDROID', 'FEMALE', '19', '23']\n['TUR', 'ANDROID', 'FEMALE', '24', '30']\n['TUR', 'ANDROID', 'FEMALE', '24', '30']\n['DEU', 'ANDROID', 'FEMALE', '19', '23']\n['TUR', 'ANDROID', 'FEMALE', '41', '66']\n['DEU', 'ANDROID', 'MALE', '19', '23']\n['BRA', 'ANDROID', 'FEMALE', '24', '30']\n['USA', 'ANDROID', 'MALE', '0', '18']\n['USA', 'ANDROID', 'MALE', '41', '66']\n['USA', 'ANDROID', 'FEMALE', '41', '66']\n['FRA', 'ANDROID', 'FEMALE', '31', '40']\n['USA', 'IOS', 'MALE', '24', '30']\n['USA', 'ANDROID', 'FEMALE', '24', '30']\n['DEU', 'ANDROID', 'FEMALE', '19', '23']\n['BRA', 'ANDROID', 'MALE', '24', '30']\n['USA', 'ANDROID', 'FEMALE', '0', '18']\n['USA', 'IOS', 'FEMALE', '19', '23']\n['BRA', 'IOS', 'MALE', '0', '18']\n['DEU', 'IOS', 'FEMALE', '0', '18']\n['BRA', 'ANDROID', 'FEMALE', '31', '40']\n['USA', 'ANDROID', 'MALE', '0', '18']\n['CAN', 'IOS', 'FEMALE', '0', '18']\n['TUR', 'IOS', 'FEMALE', '0', '18']\n['BRA', 'IOS', 'FEMALE', '0', '18']\n['FRA', 'IOS', 'FEMALE', '0', '18']\n['BRA', 'IOS', 'FEMALE', '41', '66']\n['BRA', 'IOS', 'MALE', '41', '66']\n['USA', 'IOS', 'MALE', '24', '30']\n['BRA', 'IOS', 'FEMALE', '24', '30']\n['USA', 'IOS', 'FEMALE', '19', '23']\n['BRA', 'IOS', 'MALE', '0', '18']\n['BRA', 'IOS', 'FEMALE', '41', '66']\n['USA', 'IOS', 'MALE', '41', '66']\n['FRA', 'IOS', 'FEMALE', '31', '40']\n['FRA', 'IOS', 'MALE', '24', '30']\n['DEU', 'IOS', 'FEMALE', '31', '40']\n['USA', 'IOS', 'FEMALE', '0', '18']\n['DEU', 'IOS', 'MALE', '0', '18']\n['USA', 'IOS', 'MALE', '0', '18']\n['BRA', 'IOS', 'FEMALE', '19', '23']\n['TUR', 'IOS', 'MALE', '0', '18']\n['USA', 'IOS', 'MALE', '19', '23']\n['USA', 'IOS', 'FEMALE', '19', '23']\n['USA', 'IOS', 'FEMALE', '24', '30']\n['BRA', 'ANDROID', 'MALE', '0', '18']\n['USA', 'ANDROID', 'FEMALE', '0', '18']\n['FRA', 'ANDROID', 'FEMALE', '31', '40']\n['BRA', 'ANDROID', 'FEMALE', '0', '18']\n['TUR', 'ANDROID', 'FEMALE', '19', '23']\n['BRA', 'ANDROID', 'MALE', '24', '30']\n['FRA', 'ANDROID', 'FEMALE', '0', '18']\n['CAN', 'ANDROID', 'FEMALE', '19', '23']\n['USA', 'ANDROID', 'FEMALE', '0', '18']\n['DEU', 'ANDROID', 'MALE', '0', '18']\n['USA', 'IOS', 'MALE', '19', '23']\n['DEU', 'IOS', 'FEMALE', '31', '40']\n['USA', 'IOS', 'FEMALE', '41', '66']\n['FRA', 'IOS', 'MALE', '31', '40']\n['DEU', 'IOS', 'FEMALE', '24', '30']\n['FRA', 'IOS', 'MALE', '41', '66']\n['BRA', 'IOS', 'FEMALE', '24', '30']\n['DEU', 'IOS', 'MALE', '31', '40']\n['TUR', 'IOS', 'FEMALE', '19', '23']\n['TUR', 'IOS', 'FEMALE', '41', '66']\n['BRA', 'IOS', 'FEMALE', '41', '66']\n['BRA', 'IOS', 'FEMALE', '31', '40']\n['BRA', 'IOS', 'FEMALE', '0', '18']\n['USA', 'IOS', 'MALE', '19', '23']\n['FRA', 'IOS', 'FEMALE', '19', '23']\n['DEU', 'IOS', 'FEMALE', '24', '30']\n['DEU', 'IOS', 'FEMALE', '0', '18']\n['BRA', 'IOS', 'FEMALE', '19', '23']\n['USA', 'IOS', 'MALE', '24', '30']\n['BRA', 'IOS', 'MALE', '31', '40']\n['FRA', 'IOS', 'FEMALE', '24', '30']\n['USA', 'ANDROID', 'MALE', '31', '40']\n['CAN', 'ANDROID', 'FEMALE', '24', '30']\n['CAN', 'ANDROID', 'FEMALE', '19', '23']\n['USA', 'ANDROID', 'FEMALE', '24', '30']\n['BRA', 'ANDROID', 'MALE', '31', '40']\n['USA', 'ANDROID', 'FEMALE', '0', '18']\n['DEU', 'IOS', 'FEMALE', '41', '66']\n['DEU', 'IOS', 'MALE', '31', '40']\n['USA', 'IOS', 'FEMALE', '19', '23']\n['DEU', 'IOS', 'MALE', '19', '23']\n['CAN', 'ANDROID', 'MALE', '24', '30']\n['TUR', 'ANDROID', 'MALE', '41', '66']\n['CAN', 'ANDROID', 'MALE', '41', '66']\n['BRA', 'ANDROID', 'MALE', '19', '23']\n['DEU', 'ANDROID', 'FEMALE', '19', '23']\n['BRA', 'ANDROID', 'MALE', '19', '23']\n['BRA', 'ANDROID', 'FEMALE', '19', '23']\n['TUR', 'ANDROID', 'FEMALE', '19', '23']\n['DEU', 'ANDROID', 'MALE', '24', '30']\n['USA', 'ANDROID', 'FEMALE', '31', '40']\n['USA', 'ANDROID', 'FEMALE', '24', '30']\n['DEU', 'ANDROID', 'FEMALE', '0', '18']\n['FRA', 'ANDROID', 'MALE', '0', '18']\n['BRA', 'ANDROID', 'MALE', '24', '30']\n['BRA', 'ANDROID', 'FEMALE', '24', '30']\n['BRA', 'ANDROID', 'MALE', '41', '66']\n['FRA', 'ANDROID', 'FEMALE', '24', '30']\n['USA', 'ANDROID', 'FEMALE', '41', '66']\n['USA', 'ANDROID', 'MALE', '31', '40']\n['USA', 'ANDROID', 'MALE', '41', '66']\n['FRA', 'ANDROID', 'MALE', '0', '18']\n['TUR', 'ANDROID', 'FEMALE', '0', '18']\n['BRA', 'ANDROID', 'MALE', '41', '66']\n['USA', 'ANDROID', 'FEMALE', '24', '30']\n['CAN', 'ANDROID', 'MALE', '24', '30']\n['BRA', 'ANDROID', 'FEMALE', '19', '23']\n['BRA', 'ANDROID', 'MALE', '24', '30']\n['CAN', 'ANDROID', 'FEMALE', '0', '18']\n['BRA', 'ANDROID', 'MALE', '0', '18']\n['USA', 'ANDROID', 'FEMALE', '31', '40']\n['FRA', 'ANDROID', 'MALE', '0', '18']\n['FRA', 'ANDROID', 'MALE', '24', '30']\n['BRA', 'ANDROID', 'MALE', '41', '66']\n['FRA', 'IOS', 'MALE', '31', '40']\n['CAN', 'IOS', 'MALE', '31', '40']\n['USA', 'IOS', 'FEMALE', '41', '66']\n['CAN', 'IOS', 'FEMALE', '0', '18']\n['DEU', 'IOS', 'MALE', '19', '23']\n['DEU', 'IOS', 'FEMALE', '24', '30']\n['DEU', 'IOS', 'MALE', '31', '40']\n['DEU', 'IOS', 'MALE', '24', '30']\n['DEU', 'IOS', 'FEMALE', '31', '40']\n['USA', 'IOS', 'MALE', '41', '66']\n['TUR', 'IOS', 'FEMALE', '41', '66']\n['BRA', 'IOS', 'MALE', '31', '40']\n['USA', 'ANDROID', 'MALE', '31', '40']\n['USA', 'ANDROID', 'MALE', '41', '66']\n['USA', 'ANDROID', 'FEMALE', '24', '30']\n['USA', 'IOS', 'MALE', '31', '40']\n['USA', 'IOS', 'MALE', '31', '40']\n['BRA', 'IOS', 'MALE', '31', '40']\n['USA', 'IOS', 'FEMALE', '24', '30']\n['TUR', 'IOS', 'MALE', '31', '40']\n['TUR', 'ANDROID', 'FEMALE', '0', '18']\n['BRA', 'ANDROID', 'MALE', '24', '30']\n['USA', 'ANDROID', 'FEMALE', '31', '40']\n['USA', 'ANDROID', 'FEMALE', '31', '40']\n['DEU', 'ANDROID', 'FEMALE', '41', '66']\n['FRA', 'ANDROID', 'FEMALE', '0', '18']\n['BRA', 'ANDROID', 'FEMALE', '31', '40']\n['TUR', 'ANDROID', 'MALE', '19', '23']\n['FRA', 'ANDROID', 'FEMALE', '19', '23']\n['DEU', 'ANDROID', 'FEMALE', '0', '18']\n['BRA', 'ANDROID', 'FEMALE', '24', '30']\n['USA', 'ANDROID', 'MALE', '24', '30']\n['CAN', 'ANDROID', 'FEMALE', '0', '18']\n['TUR', 'ANDROID', 'FEMALE', '31', '40']\n['FRA', 'ANDROID', 'MALE', '19', '23']\n['USA', 'ANDROID', 'MALE', '41', '66']\n['FRA', 'ANDROID', 'FEMALE', '24', '30']\n['BRA', 'ANDROID', 'FEMALE', '31', '40']\n['TUR', 'ANDROID', 'FEMALE', '24', '30']\n['USA', 'ANDROID', 'MALE', '31', '40']\n['USA', 'ANDROID', 'MALE', '24', '30']\n['BRA', 'ANDROID', 'FEMALE', '24', '30']\n['TUR', 'ANDROID', 'MALE', '19', '23']\n['USA', 'ANDROID', 'MALE', '24', '30']\n['BRA', 'ANDROID', 'MALE', '31', '40']\n['BRA', 'ANDROID', 'MALE', '19', '23']\n['TUR', 'ANDROID', 'MALE', '19', '23']\n['TUR', 'ANDROID', 'MALE', '41', '66']\n['BRA', 'ANDROID', 'FEMALE', '31', '40']\n['BRA', 'ANDROID', 'MALE', '41', '66']\n['USA', 'ANDROID', 'FEMALE', '31', '40']\n['USA', 'ANDROID', 'FEMALE', '24', '30']\n['CAN', 'ANDROID', 'FEMALE', '24', '30']\n['FRA', 'ANDROID', 'MALE', '0', '18']\n['DEU', 'ANDROID', 'MALE', '24', '30']\n","output_type":"stream"},{"execution_count":292,"output_type":"execute_result","data":{"text/plain":"      customers_level_based  PRICE\n0    BRA_ANDROID_MALE_41_66   59.0\n1    USA_ANDROID_MALE_31_40   59.0\n2  FRA_ANDROID_FEMALE_24_30   59.0\n3    USA_ANDROID_MALE_31_40   54.0\n4  DEU_ANDROID_FEMALE_31_40   49.0","text/html":"<div>\n<style scoped>\n    .dataframe tbody tr th:only-of-type {\n        vertical-align: middle;\n    }\n\n    .dataframe tbody tr th {\n        vertical-align: top;\n    }\n\n    .dataframe thead th {\n        text-align: right;\n    }\n</style>\n<table border=\"1\" class=\"dataframe\">\n  <thead>\n    <tr style=\"text-align: right;\">\n      <th></th>\n      <th>customers_level_based</th>\n      <th>PRICE</th>\n    </tr>\n  </thead>\n  <tbody>\n    <tr>\n      <th>0</th>\n      <td>BRA_ANDROID_MALE_41_66</td>\n      <td>59.0</td>\n    </tr>\n    <tr>\n      <th>1</th>\n      <td>USA_ANDROID_MALE_31_40</td>\n      <td>59.0</td>\n    </tr>\n    <tr>\n      <th>2</th>\n      <td>FRA_ANDROID_FEMALE_24_30</td>\n      <td>59.0</td>\n    </tr>\n    <tr>\n      <th>3</th>\n      <td>USA_ANDROID_MALE_31_40</td>\n      <td>54.0</td>\n    </tr>\n    <tr>\n      <th>4</th>\n      <td>DEU_ANDROID_FEMALE_31_40</td>\n      <td>49.0</td>\n    </tr>\n  </tbody>\n</table>\n</div>"},"metadata":{}}]},{"cell_type":"code","source":"agg_df[\"customers_level_based\"].value_counts()\n\nagg_df=agg_df.groupby(\"customers_level_based\").agg({\"PRICE\":\"mean\"})\nagg_df=agg_df.reset_index()\nagg_df.head()","metadata":{"execution":{"iopub.status.busy":"2024-09-01T12:56:17.835022Z","iopub.execute_input":"2024-09-01T12:56:17.835423Z","iopub.status.idle":"2024-09-01T12:56:17.855170Z","shell.execute_reply.started":"2024-09-01T12:56:17.835383Z","shell.execute_reply":"2024-09-01T12:56:17.854104Z"},"trusted":true},"execution_count":293,"outputs":[{"execution_count":293,"output_type":"execute_result","data":{"text/plain":"      customers_level_based      PRICE\n0   BRA_ANDROID_FEMALE_0_18  35.464646\n1  BRA_ANDROID_FEMALE_19_23  35.743035\n2  BRA_ANDROID_FEMALE_24_30  33.508929\n3  BRA_ANDROID_FEMALE_31_40  27.934381\n4  BRA_ANDROID_FEMALE_41_66  38.787879","text/html":"<div>\n<style scoped>\n    .dataframe tbody tr th:only-of-type {\n        vertical-align: middle;\n    }\n\n    .dataframe tbody tr th {\n        vertical-align: top;\n    }\n\n    .dataframe thead th {\n        text-align: right;\n    }\n</style>\n<table border=\"1\" class=\"dataframe\">\n  <thead>\n    <tr style=\"text-align: right;\">\n      <th></th>\n      <th>customers_level_based</th>\n      <th>PRICE</th>\n    </tr>\n  </thead>\n  <tbody>\n    <tr>\n      <th>0</th>\n      <td>BRA_ANDROID_FEMALE_0_18</td>\n      <td>35.464646</td>\n    </tr>\n    <tr>\n      <th>1</th>\n      <td>BRA_ANDROID_FEMALE_19_23</td>\n      <td>35.743035</td>\n    </tr>\n    <tr>\n      <th>2</th>\n      <td>BRA_ANDROID_FEMALE_24_30</td>\n      <td>33.508929</td>\n    </tr>\n    <tr>\n      <th>3</th>\n      <td>BRA_ANDROID_FEMALE_31_40</td>\n      <td>27.934381</td>\n    </tr>\n    <tr>\n      <th>4</th>\n      <td>BRA_ANDROID_FEMALE_41_66</td>\n      <td>38.787879</td>\n    </tr>\n  </tbody>\n</table>\n</div>"},"metadata":{}}]},{"cell_type":"code","source":"#yapılan işlemi doğrulamak için \nagg_df[\"customers_level_based\"].value_counts()\nagg_df.head()","metadata":{"execution":{"iopub.status.busy":"2024-09-01T12:57:09.907315Z","iopub.execute_input":"2024-09-01T12:57:09.907728Z","iopub.status.idle":"2024-09-01T12:57:09.920135Z","shell.execute_reply.started":"2024-09-01T12:57:09.907691Z","shell.execute_reply":"2024-09-01T12:57:09.919028Z"},"trusted":true},"execution_count":294,"outputs":[{"execution_count":294,"output_type":"execute_result","data":{"text/plain":"      customers_level_based      PRICE\n0   BRA_ANDROID_FEMALE_0_18  35.464646\n1  BRA_ANDROID_FEMALE_19_23  35.743035\n2  BRA_ANDROID_FEMALE_24_30  33.508929\n3  BRA_ANDROID_FEMALE_31_40  27.934381\n4  BRA_ANDROID_FEMALE_41_66  38.787879","text/html":"<div>\n<style scoped>\n    .dataframe tbody tr th:only-of-type {\n        vertical-align: middle;\n    }\n\n    .dataframe tbody tr th {\n        vertical-align: top;\n    }\n\n    .dataframe thead th {\n        text-align: right;\n    }\n</style>\n<table border=\"1\" class=\"dataframe\">\n  <thead>\n    <tr style=\"text-align: right;\">\n      <th></th>\n      <th>customers_level_based</th>\n      <th>PRICE</th>\n    </tr>\n  </thead>\n  <tbody>\n    <tr>\n      <th>0</th>\n      <td>BRA_ANDROID_FEMALE_0_18</td>\n      <td>35.464646</td>\n    </tr>\n    <tr>\n      <th>1</th>\n      <td>BRA_ANDROID_FEMALE_19_23</td>\n      <td>35.743035</td>\n    </tr>\n    <tr>\n      <th>2</th>\n      <td>BRA_ANDROID_FEMALE_24_30</td>\n      <td>33.508929</td>\n    </tr>\n    <tr>\n      <th>3</th>\n      <td>BRA_ANDROID_FEMALE_31_40</td>\n      <td>27.934381</td>\n    </tr>\n    <tr>\n      <th>4</th>\n      <td>BRA_ANDROID_FEMALE_41_66</td>\n      <td>38.787879</td>\n    </tr>\n  </tbody>\n</table>\n</div>"},"metadata":{}}]},{"cell_type":"code","source":"#Yeni müşterileri (Örnek: USA_ANDROID_MALE_0_18) PRICE’a göre 4 segmenteayırınız.\n# SegmentleriSEGMENTisimlendirmesi ile değişken olarak agg_df’e ekleyiniz.\n# Segmentleri betimleyiniz (Segmentlere göre groupby yapıp price,mean, max, sum’larını alınız)\n\nagg_df[\"SEGMENT\"]=pd.qcut(agg_df[\"PRICE\"],4,labels=[\"D\",\"C\",\"B\",\"A\"])\nagg_df.groupby(\"SEGMENT\").agg({\"PRICE\": [\"mean\",\"max\",\"sum\"]})\nagg_df.head()","metadata":{"execution":{"iopub.status.busy":"2024-09-01T12:58:23.131536Z","iopub.execute_input":"2024-09-01T12:58:23.131956Z","iopub.status.idle":"2024-09-01T12:58:23.151820Z","shell.execute_reply.started":"2024-09-01T12:58:23.131902Z","shell.execute_reply":"2024-09-01T12:58:23.150722Z"},"trusted":true},"execution_count":296,"outputs":[{"name":"stderr","text":"/tmp/ipykernel_36/1505780171.py:6: FutureWarning: The default of observed=False is deprecated and will be changed to True in a future version of pandas. Pass observed=False to retain current behavior or observed=True to adopt the future default and silence this warning.\n  agg_df.groupby(\"SEGMENT\").agg({\"PRICE\": [\"mean\",\"max\",\"sum\"]})\n","output_type":"stream"},{"execution_count":296,"output_type":"execute_result","data":{"text/plain":"      customers_level_based      PRICE SEGMENT\n0   BRA_ANDROID_FEMALE_0_18  35.464646       B\n1  BRA_ANDROID_FEMALE_19_23  35.743035       B\n2  BRA_ANDROID_FEMALE_24_30  33.508929       C\n3  BRA_ANDROID_FEMALE_31_40  27.934381       D\n4  BRA_ANDROID_FEMALE_41_66  38.787879       A","text/html":"<div>\n<style scoped>\n    .dataframe tbody tr th:only-of-type {\n        vertical-align: middle;\n    }\n\n    .dataframe tbody tr th {\n        vertical-align: top;\n    }\n\n    .dataframe thead th {\n        text-align: right;\n    }\n</style>\n<table border=\"1\" class=\"dataframe\">\n  <thead>\n    <tr style=\"text-align: right;\">\n      <th></th>\n      <th>customers_level_based</th>\n      <th>PRICE</th>\n      <th>SEGMENT</th>\n    </tr>\n  </thead>\n  <tbody>\n    <tr>\n      <th>0</th>\n      <td>BRA_ANDROID_FEMALE_0_18</td>\n      <td>35.464646</td>\n      <td>B</td>\n    </tr>\n    <tr>\n      <th>1</th>\n      <td>BRA_ANDROID_FEMALE_19_23</td>\n      <td>35.743035</td>\n      <td>B</td>\n    </tr>\n    <tr>\n      <th>2</th>\n      <td>BRA_ANDROID_FEMALE_24_30</td>\n      <td>33.508929</td>\n      <td>C</td>\n    </tr>\n    <tr>\n      <th>3</th>\n      <td>BRA_ANDROID_FEMALE_31_40</td>\n      <td>27.934381</td>\n      <td>D</td>\n    </tr>\n    <tr>\n      <th>4</th>\n      <td>BRA_ANDROID_FEMALE_41_66</td>\n      <td>38.787879</td>\n      <td>A</td>\n    </tr>\n  </tbody>\n</table>\n</div>"},"metadata":{}}]},{"cell_type":"code","source":"#33 yaşında ANDROID kullanan bir Türk kadını hangi segmenteaittir ve ortalama ne kadar gelir kazandırması beklenir?\n# 35 yaşında IOS kullanan bir Fransız kadını hangi segmenteaittir ve ortalama ne kadar gelir kazandırması beklenir?\n\nnew_user=\"TUR_ANDROID_FEMALE_31_40\"\nagg_df[agg_df[\"customers_level_based\"]==new_user]\n","metadata":{"execution":{"iopub.status.busy":"2024-09-01T12:58:52.168632Z","iopub.execute_input":"2024-09-01T12:58:52.169049Z","iopub.status.idle":"2024-09-01T12:58:52.182101Z","shell.execute_reply.started":"2024-09-01T12:58:52.169008Z","shell.execute_reply":"2024-09-01T12:58:52.180834Z"},"trusted":true},"execution_count":297,"outputs":[{"execution_count":297,"output_type":"execute_result","data":{"text/plain":"       customers_level_based      PRICE SEGMENT\n70  TUR_ANDROID_FEMALE_31_40  37.083333       A","text/html":"<div>\n<style scoped>\n    .dataframe tbody tr th:only-of-type {\n        vertical-align: middle;\n    }\n\n    .dataframe tbody tr th {\n        vertical-align: top;\n    }\n\n    .dataframe thead th {\n        text-align: right;\n    }\n</style>\n<table border=\"1\" class=\"dataframe\">\n  <thead>\n    <tr style=\"text-align: right;\">\n      <th></th>\n      <th>customers_level_based</th>\n      <th>PRICE</th>\n      <th>SEGMENT</th>\n    </tr>\n  </thead>\n  <tbody>\n    <tr>\n      <th>70</th>\n      <td>TUR_ANDROID_FEMALE_31_40</td>\n      <td>37.083333</td>\n      <td>A</td>\n    </tr>\n  </tbody>\n</table>\n</div>"},"metadata":{}}]},{"cell_type":"code","source":"# 35 yaşında IOS kullanan bir Fransız kadını hangi segmenteaittir ve ortalama ne kadar gelir kazandırması beklenir?\nnew_user2=\"FRA_IOS_FEMALE_31_40\"\nagg_df[agg_df[\"customers_level_based\"]==new_user2]","metadata":{"execution":{"iopub.status.busy":"2024-09-01T12:59:04.500483Z","iopub.execute_input":"2024-09-01T12:59:04.500901Z","iopub.status.idle":"2024-09-01T12:59:04.513611Z","shell.execute_reply.started":"2024-09-01T12:59:04.500861Z","shell.execute_reply":"2024-09-01T12:59:04.512456Z"},"trusted":true},"execution_count":298,"outputs":[{"execution_count":298,"output_type":"execute_result","data":{"text/plain":"   customers_level_based  PRICE SEGMENT\n62  FRA_IOS_FEMALE_31_40   33.0       C","text/html":"<div>\n<style scoped>\n    .dataframe tbody tr th:only-of-type {\n        vertical-align: middle;\n    }\n\n    .dataframe tbody tr th {\n        vertical-align: top;\n    }\n\n    .dataframe thead th {\n        text-align: right;\n    }\n</style>\n<table border=\"1\" class=\"dataframe\">\n  <thead>\n    <tr style=\"text-align: right;\">\n      <th></th>\n      <th>customers_level_based</th>\n      <th>PRICE</th>\n      <th>SEGMENT</th>\n    </tr>\n  </thead>\n  <tbody>\n    <tr>\n      <th>62</th>\n      <td>FRA_IOS_FEMALE_31_40</td>\n      <td>33.0</td>\n      <td>C</td>\n    </tr>\n  </tbody>\n</table>\n</div>"},"metadata":{}}]}]}
+{
+ "cells": [
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "id": "1add01f9",
+   "metadata": {
+    "_cell_guid": "b1076dfc-b9ad-4769-8c92-a6c4dae69d19",
+    "_uuid": "8f2839f25d086af736a60e9eeb907d3b93b6e0e5",
+    "execution": {
+     "iopub.execute_input": "2024-09-02T18:04:21.741361Z",
+     "iopub.status.busy": "2024-09-02T18:04:21.740575Z",
+     "iopub.status.idle": "2024-09-02T18:04:22.572888Z",
+     "shell.execute_reply": "2024-09-02T18:04:22.571829Z"
+    },
+    "papermill": {
+     "duration": 0.843628,
+     "end_time": "2024-09-02T18:04:22.575867",
+     "exception": false,
+     "start_time": "2024-09-02T18:04:21.732239",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "<class 'pandas.core.frame.DataFrame'>\n",
+      "Index: 5000 entries, 0 to 4999\n",
+      "Data columns (total 5 columns):\n",
+      " #   Column   Non-Null Count  Dtype \n",
+      "---  ------   --------------  ----- \n",
+      " 0   PRICE    5000 non-null   int64 \n",
+      " 1   SOURCE   5000 non-null   object\n",
+      " 2   SEX      5000 non-null   object\n",
+      " 3   COUNTRY  5000 non-null   object\n",
+      " 4   AGE      5000 non-null   int64 \n",
+      "dtypes: int64(2), object(3)\n",
+      "memory usage: 234.4+ KB\n"
+     ]
+    },
+    {
+     "data": {
+      "text/plain": [
+       "PRICE      0\n",
+       "SOURCE     0\n",
+       "SEX        0\n",
+       "COUNTRY    0\n",
+       "AGE        0\n",
+       "dtype: int64"
+      ]
+     },
+     "execution_count": 1,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "import pandas as pd\n",
+    "pd.set_option('display.max_columns', None)\n",
+    "#Soru 1: persona.csvdosyasını okutunuz ve veri seti ile ilgili genel bilgileri gösteriniz.\n",
+    "df = pd.read_csv('/kaggle/input/persona/persona.csv')\n",
+    "df.head()\n",
+    "df.tail()\n",
+    "df.shape\n",
+    "df.info()\n",
+    "df.columns\n",
+    "df.index\n",
+    "df.describe().T\n",
+    "df.isnull().values.any()\n",
+    "df.isnull().sum()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "id": "4736ec4f",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2024-09-02T18:04:22.590103Z",
+     "iopub.status.busy": "2024-09-02T18:04:22.589231Z",
+     "iopub.status.idle": "2024-09-02T18:04:22.598651Z",
+     "shell.execute_reply": "2024-09-02T18:04:22.597560Z"
+    },
+    "papermill": {
+     "duration": 0.018702,
+     "end_time": "2024-09-02T18:04:22.600775",
+     "exception": false,
+     "start_time": "2024-09-02T18:04:22.582073",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "SOURCE\n",
+       "android    2974\n",
+       "ios        2026\n",
+       "Name: count, dtype: int64"
+      ]
+     },
+     "execution_count": 2,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "#Soru 2: Kaç uniqueSOURCE vardır? Frekansları nedir?\n",
+    "df[\"SOURCE\"].unique()\n",
+    "df[\"SOURCE\"].value_counts()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "id": "2ad4bbc1",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2024-09-02T18:04:22.614299Z",
+     "iopub.status.busy": "2024-09-02T18:04:22.613914Z",
+     "iopub.status.idle": "2024-09-02T18:04:22.621911Z",
+     "shell.execute_reply": "2024-09-02T18:04:22.620966Z"
+    },
+    "papermill": {
+     "duration": 0.017244,
+     "end_time": "2024-09-02T18:04:22.624014",
+     "exception": false,
+     "start_time": "2024-09-02T18:04:22.606770",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "6"
+      ]
+     },
+     "execution_count": 3,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "#Soru 3:Kaç unique PRICE vardır?\n",
+    "#df[\"PRICE\"].unique()\n",
+    "df[\"PRICE\"].nunique()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "id": "9373ee87",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2024-09-02T18:04:22.637906Z",
+     "iopub.status.busy": "2024-09-02T18:04:22.637518Z",
+     "iopub.status.idle": "2024-09-02T18:04:22.647467Z",
+     "shell.execute_reply": "2024-09-02T18:04:22.646419Z"
+    },
+    "papermill": {
+     "duration": 0.019343,
+     "end_time": "2024-09-02T18:04:22.649699",
+     "exception": false,
+     "start_time": "2024-09-02T18:04:22.630356",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "PRICE\n",
+       "29    1305\n",
+       "39    1260\n",
+       "49    1031\n",
+       "19     992\n",
+       "59     212\n",
+       "9      200\n",
+       "Name: count, dtype: int64"
+      ]
+     },
+     "execution_count": 4,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "#Soru 4:Hangi PRICE'dan kaçar tane satış gerçekleşmiş?\n",
+    "df[\"PRICE\"].value_counts()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 5,
+   "id": "e52c0c80",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2024-09-02T18:04:22.663764Z",
+     "iopub.status.busy": "2024-09-02T18:04:22.663381Z",
+     "iopub.status.idle": "2024-09-02T18:04:22.671831Z",
+     "shell.execute_reply": "2024-09-02T18:04:22.670757Z"
+    },
+    "papermill": {
+     "duration": 0.018127,
+     "end_time": "2024-09-02T18:04:22.674078",
+     "exception": false,
+     "start_time": "2024-09-02T18:04:22.655951",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "COUNTRY\n",
+       "usa    2065\n",
+       "bra    1496\n",
+       "deu     455\n",
+       "tur     451\n",
+       "fra     303\n",
+       "can     230\n",
+       "Name: count, dtype: int64"
+      ]
+     },
+     "execution_count": 5,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "#Soru 5:Hangi ülkeden kaçar tane satış olmuş?\n",
+    "df[\"COUNTRY\"].value_counts()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "id": "c0f38c5a",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2024-09-02T18:04:22.688629Z",
+     "iopub.status.busy": "2024-09-02T18:04:22.687956Z",
+     "iopub.status.idle": "2024-09-02T18:04:22.697279Z",
+     "shell.execute_reply": "2024-09-02T18:04:22.696099Z"
+    },
+    "papermill": {
+     "duration": 0.01936,
+     "end_time": "2024-09-02T18:04:22.699688",
+     "exception": false,
+     "start_time": "2024-09-02T18:04:22.680328",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "COUNTRY\n",
+       "bra    51354\n",
+       "can     7730\n",
+       "deu    15485\n",
+       "fra    10177\n",
+       "tur    15689\n",
+       "usa    70225\n",
+       "Name: PRICE, dtype: int64"
+      ]
+     },
+     "execution_count": 6,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "#Soru 6:Ülkelere göre satışlardan toplam ne kadar kazanılmış?\n",
+    "df.groupby(\"COUNTRY\")[\"PRICE\"].sum()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 7,
+   "id": "d0bbb855",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2024-09-02T18:04:22.714259Z",
+     "iopub.status.busy": "2024-09-02T18:04:22.713819Z",
+     "iopub.status.idle": "2024-09-02T18:04:22.722209Z",
+     "shell.execute_reply": "2024-09-02T18:04:22.721163Z"
+    },
+    "papermill": {
+     "duration": 0.018173,
+     "end_time": "2024-09-02T18:04:22.724378",
+     "exception": false,
+     "start_time": "2024-09-02T18:04:22.706205",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "SOURCE\n",
+       "android    2974\n",
+       "ios        2026\n",
+       "Name: count, dtype: int64"
+      ]
+     },
+     "execution_count": 7,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "#Soru 7:SOURCE türlerine göre satış sayıları nedir?\n",
+    "df[\"SOURCE\"].value_counts()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 8,
+   "id": "e52ad541",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2024-09-02T18:04:22.739660Z",
+     "iopub.status.busy": "2024-09-02T18:04:22.738599Z",
+     "iopub.status.idle": "2024-09-02T18:04:22.750176Z",
+     "shell.execute_reply": "2024-09-02T18:04:22.749127Z"
+    },
+    "papermill": {
+     "duration": 0.021498,
+     "end_time": "2024-09-02T18:04:22.752412",
+     "exception": false,
+     "start_time": "2024-09-02T18:04:22.730914",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "COUNTRY\n",
+       "bra    34.327540\n",
+       "can    33.608696\n",
+       "deu    34.032967\n",
+       "fra    33.587459\n",
+       "tur    34.787140\n",
+       "usa    34.007264\n",
+       "Name: PRICE, dtype: float64"
+      ]
+     },
+     "execution_count": 8,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "#Soru 8:Ülkelere göre PRICE ortalamaları nedir?\n",
+    "df.groupby(\"COUNTRY\")[\"PRICE\"].mean()\n",
+    "#df.groupby(\"COUNTRY\").agg({\"PRICE\":\"mean\"})"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 9,
+   "id": "aaa31cf7",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2024-09-02T18:04:22.767574Z",
+     "iopub.status.busy": "2024-09-02T18:04:22.767145Z",
+     "iopub.status.idle": "2024-09-02T18:04:22.782892Z",
+     "shell.execute_reply": "2024-09-02T18:04:22.781918Z"
+    },
+    "papermill": {
+     "duration": 0.025785,
+     "end_time": "2024-09-02T18:04:22.785010",
+     "exception": false,
+     "start_time": "2024-09-02T18:04:22.759225",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>PRICE</th>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>SOURCE</th>\n",
+       "      <th></th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>android</th>\n",
+       "      <td>34.174849</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>ios</th>\n",
+       "      <td>34.069102</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "             PRICE\n",
+       "SOURCE            \n",
+       "android  34.174849\n",
+       "ios      34.069102"
+      ]
+     },
+     "execution_count": 9,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "#Soru 9:SOURCE'lara göre PRICE ortalamaları nedir?\n",
+    "df.groupby(\"SOURCE\").agg({\"PRICE\":\"mean\"})"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 10,
+   "id": "7d7cd297",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2024-09-02T18:04:22.800720Z",
+     "iopub.status.busy": "2024-09-02T18:04:22.799812Z",
+     "iopub.status.idle": "2024-09-02T18:04:22.815281Z",
+     "shell.execute_reply": "2024-09-02T18:04:22.814137Z"
+    },
+    "papermill": {
+     "duration": 0.026003,
+     "end_time": "2024-09-02T18:04:22.817775",
+     "exception": false,
+     "start_time": "2024-09-02T18:04:22.791772",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th></th>\n",
+       "      <th>PRICE</th>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>COUNTRY</th>\n",
+       "      <th>SOURCE</th>\n",
+       "      <th></th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th rowspan=\"2\" valign=\"top\">bra</th>\n",
+       "      <th>android</th>\n",
+       "      <td>34.387029</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>ios</th>\n",
+       "      <td>34.222222</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th rowspan=\"2\" valign=\"top\">can</th>\n",
+       "      <th>android</th>\n",
+       "      <td>33.330709</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>ios</th>\n",
+       "      <td>33.951456</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th rowspan=\"2\" valign=\"top\">deu</th>\n",
+       "      <th>android</th>\n",
+       "      <td>33.869888</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>ios</th>\n",
+       "      <td>34.268817</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th rowspan=\"2\" valign=\"top\">fra</th>\n",
+       "      <th>android</th>\n",
+       "      <td>34.312500</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>ios</th>\n",
+       "      <td>32.776224</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th rowspan=\"2\" valign=\"top\">tur</th>\n",
+       "      <th>android</th>\n",
+       "      <td>36.229437</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>ios</th>\n",
+       "      <td>33.272727</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th rowspan=\"2\" valign=\"top\">usa</th>\n",
+       "      <th>android</th>\n",
+       "      <td>33.760357</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>ios</th>\n",
+       "      <td>34.371703</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "                     PRICE\n",
+       "COUNTRY SOURCE            \n",
+       "bra     android  34.387029\n",
+       "        ios      34.222222\n",
+       "can     android  33.330709\n",
+       "        ios      33.951456\n",
+       "deu     android  33.869888\n",
+       "        ios      34.268817\n",
+       "fra     android  34.312500\n",
+       "        ios      32.776224\n",
+       "tur     android  36.229437\n",
+       "        ios      33.272727\n",
+       "usa     android  33.760357\n",
+       "        ios      34.371703"
+      ]
+     },
+     "execution_count": 10,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "#Soru 10: COUNTRY-SOURCE kırılımında PRICE ortalamaları nedir?\n",
+    "df.groupby([\"COUNTRY\",\"SOURCE\"]).agg({\"PRICE\":\"mean\"})\n",
+    "\n",
+    "#mean default\n",
+    "#df.pivot_table(\"PRICE\",\"COUNTRY\",\"SOURCE\")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 11,
+   "id": "3188334b",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2024-09-02T18:04:22.833817Z",
+     "iopub.status.busy": "2024-09-02T18:04:22.833428Z",
+     "iopub.status.idle": "2024-09-02T18:04:22.853404Z",
+     "shell.execute_reply": "2024-09-02T18:04:22.852160Z"
+    },
+    "papermill": {
+     "duration": 0.03058,
+     "end_time": "2024-09-02T18:04:22.855574",
+     "exception": false,
+     "start_time": "2024-09-02T18:04:22.824994",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th></th>\n",
+       "      <th></th>\n",
+       "      <th></th>\n",
+       "      <th>PRICE</th>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>COUNTRY</th>\n",
+       "      <th>SOURCE</th>\n",
+       "      <th>SEX</th>\n",
+       "      <th>AGE</th>\n",
+       "      <th></th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th rowspan=\"5\" valign=\"top\">bra</th>\n",
+       "      <th rowspan=\"5\" valign=\"top\">android</th>\n",
+       "      <th rowspan=\"5\" valign=\"top\">female</th>\n",
+       "      <th>15</th>\n",
+       "      <td>38.714286</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>16</th>\n",
+       "      <td>35.944444</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>17</th>\n",
+       "      <td>35.666667</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>18</th>\n",
+       "      <td>32.255814</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>19</th>\n",
+       "      <td>35.206897</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>...</th>\n",
+       "      <th>...</th>\n",
+       "      <th>...</th>\n",
+       "      <th>...</th>\n",
+       "      <td>...</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th rowspan=\"5\" valign=\"top\">usa</th>\n",
+       "      <th rowspan=\"5\" valign=\"top\">ios</th>\n",
+       "      <th rowspan=\"5\" valign=\"top\">male</th>\n",
+       "      <th>42</th>\n",
+       "      <td>30.250000</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>50</th>\n",
+       "      <td>39.000000</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>53</th>\n",
+       "      <td>34.000000</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>55</th>\n",
+       "      <td>29.000000</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>59</th>\n",
+       "      <td>46.500000</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "<p>348 rows × 1 columns</p>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "                                PRICE\n",
+       "COUNTRY SOURCE  SEX    AGE           \n",
+       "bra     android female 15   38.714286\n",
+       "                       16   35.944444\n",
+       "                       17   35.666667\n",
+       "                       18   32.255814\n",
+       "                       19   35.206897\n",
+       "...                               ...\n",
+       "usa     ios     male   42   30.250000\n",
+       "                       50   39.000000\n",
+       "                       53   34.000000\n",
+       "                       55   29.000000\n",
+       "                       59   46.500000\n",
+       "\n",
+       "[348 rows x 1 columns]"
+      ]
+     },
+     "execution_count": 11,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "#Görev 2:  COUNTRY, SOURCE, SEX, AGE kırılımında ortalama kazançlar nedir?\n",
+    "df.groupby([\"COUNTRY\",\"SOURCE\",\"SEX\",\"AGE\"]).agg({\"PRICE\":\"mean\"})\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 12,
+   "id": "ee6b535e",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2024-09-02T18:04:22.871669Z",
+     "iopub.status.busy": "2024-09-02T18:04:22.871304Z",
+     "iopub.status.idle": "2024-09-02T18:04:22.881947Z",
+     "shell.execute_reply": "2024-09-02T18:04:22.880918Z"
+    },
+    "papermill": {
+     "duration": 0.021389,
+     "end_time": "2024-09-02T18:04:22.884091",
+     "exception": false,
+     "start_time": "2024-09-02T18:04:22.862702",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [],
+   "source": [
+    "#Önceki sorudaki çıktıyı daha iyi görebilmek için sort_values metodunu azalan olacak şekilde PRICE’a göre uygulayınız.\n",
+    "\n",
+    "#Çıktıyı agg_df olarak kaydediniz.\n",
+    "\n",
+    "agg_df = df.groupby([\"COUNTRY\",\"SOURCE\",\"SEX\",\"AGE\"]).agg({\"PRICE\":\"mean\"}).sort_values(by='PRICE',ascending=False)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 13,
+   "id": "b7f418a0",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2024-09-02T18:04:22.900140Z",
+     "iopub.status.busy": "2024-09-02T18:04:22.899731Z",
+     "iopub.status.idle": "2024-09-02T18:04:22.917557Z",
+     "shell.execute_reply": "2024-09-02T18:04:22.916273Z"
+    },
+    "papermill": {
+     "duration": 0.028531,
+     "end_time": "2024-09-02T18:04:22.919815",
+     "exception": false,
+     "start_time": "2024-09-02T18:04:22.891284",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "    COUNTRY   SOURCE     SEX  AGE  PRICE\n",
+      "0       bra  android    male   46   59.0\n",
+      "1       usa  android    male   36   59.0\n",
+      "2       fra  android  female   24   59.0\n",
+      "3       usa      ios    male   32   54.0\n",
+      "4       deu  android  female   36   49.0\n",
+      "..      ...      ...     ...  ...    ...\n",
+      "343     usa      ios  female   38   19.0\n",
+      "344     usa      ios  female   30   19.0\n",
+      "345     can  android  female   27   19.0\n",
+      "346     fra  android    male   18   19.0\n",
+      "347     deu  android    male   26    9.0\n",
+      "\n",
+      "[348 rows x 5 columns]\n"
+     ]
+    }
+   ],
+   "source": [
+    "#Üçüncü sorunun çıktısında yer alan PRICE dışındaki tüm değişkenler index isimleridir. Bu isimleri değişken\n",
+    "# isimlerine çeviriniz.\n",
+    "\n",
+    "agg_df=df.groupby([\"COUNTRY\",\"SOURCE\",\"SEX\",\"AGE\"]).agg({\"PRICE\":\"mean\"}).sort_values(by='PRICE',\n",
+    " ascending=False).reset_index()\n",
+    "print(agg_df)\n",
+    "#agg_df.reset_index()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 14,
+   "id": "533e2caa",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2024-09-02T18:04:22.936215Z",
+     "iopub.status.busy": "2024-09-02T18:04:22.935830Z",
+     "iopub.status.idle": "2024-09-02T18:04:22.946425Z",
+     "shell.execute_reply": "2024-09-02T18:04:22.945432Z"
+    },
+    "papermill": {
+     "duration": 0.021263,
+     "end_time": "2024-09-02T18:04:22.948393",
+     "exception": false,
+     "start_time": "2024-09-02T18:04:22.927130",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "count    348.000000\n",
+       "mean      28.258621\n",
+       "std       11.379075\n",
+       "min       15.000000\n",
+       "25%       19.000000\n",
+       "50%       25.000000\n",
+       "75%       34.000000\n",
+       "max       66.000000\n",
+       "Name: AGE, dtype: float64"
+      ]
+     },
+     "execution_count": 14,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "# agg_df[\"AGE_CAT\"] = agg_df[\"AGE\"].astype('category')\n",
+    "\n",
+    "# def number_to_string(argument):\n",
+    "#     match argument:\n",
+    "#         case num if num in range(0,19):\n",
+    "#             return \"0_18\"\n",
+    "#         case num if num in range(19,24):\n",
+    "#             return \"19_23\"\n",
+    "#         case num if num in range(24,31):\n",
+    "#             return \"24_30\"\n",
+    "#         case num if num in range(31, 41):\n",
+    "#             return \"31_40\"\n",
+    "#         case default:\n",
+    "#             return \"41_70\"\n",
+    "\n",
+    "# agg_df[\"AGE_CAT\"]=[number_to_string(col) for col in agg_df[\"AGE\"]]\n",
+    "\n",
+    "#age değişkeninin nerden bölüneceğini belirtelim.\n",
+    "agg_df[\"AGE\"].describe()\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 15,
+   "id": "55638dcf",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2024-09-02T18:04:22.964489Z",
+     "iopub.status.busy": "2024-09-02T18:04:22.964120Z",
+     "iopub.status.idle": "2024-09-02T18:04:22.969046Z",
+     "shell.execute_reply": "2024-09-02T18:04:22.968120Z"
+    },
+    "papermill": {
+     "duration": 0.015637,
+     "end_time": "2024-09-02T18:04:22.971408",
+     "exception": false,
+     "start_time": "2024-09-02T18:04:22.955771",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [],
+   "source": [
+    "\n",
+    "#age değişkeninin nerelerden bölüneceğini belirtelim.\n",
+    "bins=[0,18,23,30,40,agg_df[\"AGE\"].max()]\n",
+    "\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 16,
+   "id": "b1d89241",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2024-09-02T18:04:22.988903Z",
+     "iopub.status.busy": "2024-09-02T18:04:22.988531Z",
+     "iopub.status.idle": "2024-09-02T18:04:22.994248Z",
+     "shell.execute_reply": "2024-09-02T18:04:22.993229Z"
+    },
+    "papermill": {
+     "duration": 0.017713,
+     "end_time": "2024-09-02T18:04:22.996512",
+     "exception": false,
+     "start_time": "2024-09-02T18:04:22.978799",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [],
+   "source": [
+    "#bölünen noktalara karşılık isimlendirmelerin ne olacağını ifade edelim.\n",
+    "my_title=['0_18','19_23','24_30','31_40','41_'+str(agg_df[\"AGE\"].max())]\n",
+    "\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 17,
+   "id": "c5781f2f",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2024-09-02T18:04:23.013175Z",
+     "iopub.status.busy": "2024-09-02T18:04:23.012765Z",
+     "iopub.status.idle": "2024-09-02T18:04:23.026261Z",
+     "shell.execute_reply": "2024-09-02T18:04:23.025139Z"
+    },
+    "papermill": {
+     "duration": 0.024698,
+     "end_time": "2024-09-02T18:04:23.028687",
+     "exception": false,
+     "start_time": "2024-09-02T18:04:23.003989",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "    COUNTRY   SOURCE     SEX  AGE  PRICE AGE_CAT\n",
+      "0       bra  android    male   46   59.0   41_66\n",
+      "1       usa  android    male   36   59.0   31_40\n",
+      "2       fra  android  female   24   59.0   24_30\n",
+      "3       usa      ios    male   32   54.0   31_40\n",
+      "4       deu  android  female   36   49.0   31_40\n",
+      "..      ...      ...     ...  ...    ...     ...\n",
+      "343     usa      ios  female   38   19.0   31_40\n",
+      "344     usa      ios  female   30   19.0   24_30\n",
+      "345     can  android  female   27   19.0   24_30\n",
+      "346     fra  android    male   18   19.0    0_18\n",
+      "347     deu  android    male   26    9.0   24_30\n",
+      "\n",
+      "[348 rows x 6 columns]\n"
+     ]
+    }
+   ],
+   "source": [
+    "#age bölelim.\n",
+    "agg_df[\"AGE_CAT\"]=pd.cut(agg_df[\"AGE\"], bins, labels=my_title)\n",
+    "agg_df.head()\n",
+    "\n",
+    "print(agg_df)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 18,
+   "id": "9f24fc21",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2024-09-02T18:04:23.045813Z",
+     "iopub.status.busy": "2024-09-02T18:04:23.044809Z",
+     "iopub.status.idle": "2024-09-02T18:04:23.065117Z",
+     "shell.execute_reply": "2024-09-02T18:04:23.063843Z"
+    },
+    "papermill": {
+     "duration": 0.033577,
+     "end_time": "2024-09-02T18:04:23.069650",
+     "exception": false,
+     "start_time": "2024-09-02T18:04:23.036073",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "['BRA', 'ANDROID', 'MALE', '41', '66']\n",
+      "['USA', 'ANDROID', 'MALE', '31', '40']\n",
+      "['FRA', 'ANDROID', 'FEMALE', '24', '30']\n",
+      "['USA', 'ANDROID', 'MALE', '31', '40']\n",
+      "['DEU', 'ANDROID', 'FEMALE', '31', '40']\n",
+      "['DEU', 'ANDROID', 'FEMALE', '41', '66']\n",
+      "['DEU', 'ANDROID', 'MALE', '19', '23']\n",
+      "['USA', 'ANDROID', 'FEMALE', '41', '66']\n",
+      "['FRA', 'ANDROID', 'MALE', '19', '23']\n",
+      "['USA', 'ANDROID', 'MALE', '41', '66']\n",
+      "['DEU', 'ANDROID', 'MALE', '0', '18']\n",
+      "['BRA', 'ANDROID', 'FEMALE', '24', '30']\n",
+      "['USA', 'ANDROID', 'FEMALE', '41', '66']\n",
+      "['TUR', 'ANDROID', 'MALE', '24', '30']\n",
+      "['DEU', 'ANDROID', 'MALE', '31', '40']\n",
+      "['TUR', 'ANDROID', 'FEMALE', '0', '18']\n",
+      "['BRA', 'ANDROID', 'FEMALE', '41', '66']\n",
+      "['BRA', 'ANDROID', 'FEMALE', '19', '23']\n",
+      "['TUR', 'ANDROID', 'FEMALE', '31', '40']\n",
+      "['BRA', 'IOS', 'FEMALE', '31', '40']\n",
+      "['TUR', 'IOS', 'MALE', '31', '40']\n",
+      "['TUR', 'IOS', 'MALE', '0', '18']\n",
+      "['USA', 'IOS', 'MALE', '24', '30']\n",
+      "['BRA', 'IOS', 'MALE', '41', '66']\n",
+      "['DEU', 'ANDROID', 'MALE', '19', '23']\n",
+      "['USA', 'ANDROID', 'MALE', '24', '30']\n",
+      "['TUR', 'ANDROID', 'FEMALE', '0', '18']\n",
+      "['USA', 'ANDROID', 'MALE', '41', '66']\n",
+      "['TUR', 'ANDROID', 'MALE', '24', '30']\n",
+      "['USA', 'ANDROID', 'FEMALE', '41', '66']\n",
+      "['FRA', 'ANDROID', 'MALE', '19', '23']\n",
+      "['USA', 'ANDROID', 'MALE', '31', '40']\n",
+      "['TUR', 'ANDROID', 'FEMALE', '0', '18']\n",
+      "['FRA', 'ANDROID', 'MALE', '0', '18']\n",
+      "['TUR', 'ANDROID', 'FEMALE', '19', '23']\n",
+      "['TUR', 'ANDROID', 'FEMALE', '31', '40']\n",
+      "['TUR', 'ANDROID', 'MALE', '24', '30']\n",
+      "['FRA', 'ANDROID', 'MALE', '19', '23']\n",
+      "['BRA', 'ANDROID', 'MALE', '24', '30']\n",
+      "['CAN', 'ANDROID', 'MALE', '24', '30']\n",
+      "['CAN', 'ANDROID', 'MALE', '19', '23']\n",
+      "['USA', 'ANDROID', 'MALE', '41', '66']\n",
+      "['TUR', 'ANDROID', 'MALE', '24', '30']\n",
+      "['BRA', 'ANDROID', 'MALE', '31', '40']\n",
+      "['BRA', 'ANDROID', 'MALE', '0', '18']\n",
+      "['USA', 'ANDROID', 'FEMALE', '19', '23']\n",
+      "['TUR', 'ANDROID', 'MALE', '41', '66']\n",
+      "['BRA', 'ANDROID', 'FEMALE', '19', '23']\n",
+      "['USA', 'ANDROID', 'MALE', '41', '66']\n",
+      "['BRA', 'ANDROID', 'FEMALE', '24', '30']\n",
+      "['DEU', 'ANDROID', 'FEMALE', '31', '40']\n",
+      "['DEU', 'ANDROID', 'MALE', '0', '18']\n",
+      "['FRA', 'ANDROID', 'FEMALE', '19', '23']\n",
+      "['FRA', 'ANDROID', 'MALE', '31', '40']\n",
+      "['TUR', 'ANDROID', 'FEMALE', '31', '40']\n",
+      "['FRA', 'IOS', 'MALE', '41', '66']\n",
+      "['BRA', 'IOS', 'FEMALE', '31', '40']\n",
+      "['TUR', 'IOS', 'MALE', '0', '18']\n",
+      "['BRA', 'IOS', 'FEMALE', '41', '66']\n",
+      "['TUR', 'IOS', 'MALE', '0', '18']\n",
+      "['TUR', 'IOS', 'FEMALE', '41', '66']\n",
+      "['BRA', 'IOS', 'FEMALE', '0', '18']\n",
+      "['USA', 'IOS', 'MALE', '19', '23']\n",
+      "['USA', 'IOS', 'FEMALE', '0', '18']\n",
+      "['FRA', 'IOS', 'MALE', '31', '40']\n",
+      "['TUR', 'IOS', 'MALE', '0', '18']\n",
+      "['DEU', 'IOS', 'MALE', '31', '40']\n",
+      "['USA', 'IOS', 'FEMALE', '24', '30']\n",
+      "['DEU', 'ANDROID', 'FEMALE', '0', '18']\n",
+      "['CAN', 'ANDROID', 'MALE', '0', '18']\n",
+      "['CAN', 'ANDROID', 'MALE', '41', '66']\n",
+      "['BRA', 'IOS', 'FEMALE', '24', '30']\n",
+      "['TUR', 'IOS', 'FEMALE', '24', '30']\n",
+      "['CAN', 'IOS', 'MALE', '0', '18']\n",
+      "['BRA', 'IOS', 'MALE', '31', '40']\n",
+      "['FRA', 'IOS', 'FEMALE', '0', '18']\n",
+      "['DEU', 'IOS', 'FEMALE', '0', '18']\n",
+      "['CAN', 'IOS', 'FEMALE', '0', '18']\n",
+      "['TUR', 'IOS', 'FEMALE', '19', '23']\n",
+      "['DEU', 'IOS', 'MALE', '19', '23']\n",
+      "['BRA', 'IOS', 'FEMALE', '19', '23']\n",
+      "['USA', 'IOS', 'FEMALE', '31', '40']\n",
+      "['BRA', 'IOS', 'MALE', '19', '23']\n",
+      "['BRA', 'IOS', 'MALE', '0', '18']\n",
+      "['BRA', 'IOS', 'MALE', '24', '30']\n",
+      "['USA', 'ANDROID', 'MALE', '24', '30']\n",
+      "['TUR', 'ANDROID', 'FEMALE', '19', '23']\n",
+      "['DEU', 'ANDROID', 'MALE', '41', '66']\n",
+      "['BRA', 'ANDROID', 'FEMALE', '41', '66']\n",
+      "['BRA', 'ANDROID', 'MALE', '0', '18']\n",
+      "['USA', 'ANDROID', 'FEMALE', '24', '30']\n",
+      "['BRA', 'ANDROID', 'FEMALE', '0', '18']\n",
+      "['BRA', 'ANDROID', 'MALE', '31', '40']\n",
+      "['FRA', 'ANDROID', 'FEMALE', '0', '18']\n",
+      "['USA', 'ANDROID', 'MALE', '19', '23']\n",
+      "['BRA', 'ANDROID', 'FEMALE', '0', '18']\n",
+      "['BRA', 'ANDROID', 'MALE', '41', '66']\n",
+      "['BRA', 'ANDROID', 'FEMALE', '24', '30']\n",
+      "['USA', 'ANDROID', 'MALE', '24', '30']\n",
+      "['TUR', 'ANDROID', 'FEMALE', '41', '66']\n",
+      "['USA', 'ANDROID', 'FEMALE', '24', '30']\n",
+      "['DEU', 'ANDROID', 'FEMALE', '24', '30']\n",
+      "['CAN', 'ANDROID', 'MALE', '0', '18']\n",
+      "['BRA', 'ANDROID', 'FEMALE', '0', '18']\n",
+      "['TUR', 'ANDROID', 'MALE', '24', '30']\n",
+      "['USA', 'ANDROID', 'MALE', '41', '66']\n",
+      "['USA', 'IOS', 'FEMALE', '19', '23']\n",
+      "['USA', 'IOS', 'FEMALE', '19', '23']\n",
+      "['FRA', 'IOS', 'MALE', '19', '23']\n",
+      "['FRA', 'ANDROID', 'MALE', '41', '66']\n",
+      "['BRA', 'ANDROID', 'MALE', '41', '66']\n",
+      "['TUR', 'IOS', 'MALE', '19', '23']\n",
+      "['BRA', 'IOS', 'FEMALE', '24', '30']\n",
+      "['USA', 'IOS', 'FEMALE', '31', '40']\n",
+      "['USA', 'IOS', 'FEMALE', '24', '30']\n",
+      "['BRA', 'IOS', 'FEMALE', '0', '18']\n",
+      "['TUR', 'IOS', 'FEMALE', '19', '23']\n",
+      "['DEU', 'IOS', 'FEMALE', '0', '18']\n",
+      "['USA', 'IOS', 'MALE', '41', '66']\n",
+      "['BRA', 'IOS', 'MALE', '19', '23']\n",
+      "['DEU', 'IOS', 'MALE', '31', '40']\n",
+      "['BRA', 'ANDROID', 'FEMALE', '31', '40']\n",
+      "['BRA', 'ANDROID', 'FEMALE', '41', '66']\n",
+      "['BRA', 'ANDROID', 'MALE', '24', '30']\n",
+      "['DEU', 'ANDROID', 'FEMALE', '24', '30']\n",
+      "['BRA', 'ANDROID', 'MALE', '0', '18']\n",
+      "['BRA', 'ANDROID', 'MALE', '19', '23']\n",
+      "['USA', 'ANDROID', 'FEMALE', '41', '66']\n",
+      "['BRA', 'IOS', 'MALE', '19', '23']\n",
+      "['BRA', 'IOS', 'FEMALE', '19', '23']\n",
+      "['USA', 'IOS', 'MALE', '0', '18']\n",
+      "['BRA', 'IOS', 'FEMALE', '31', '40']\n",
+      "['USA', 'IOS', 'MALE', '24', '30']\n",
+      "['BRA', 'IOS', 'FEMALE', '31', '40']\n",
+      "['USA', 'IOS', 'FEMALE', '19', '23']\n",
+      "['USA', 'ANDROID', 'FEMALE', '31', '40']\n",
+      "['FRA', 'ANDROID', 'MALE', '19', '23']\n",
+      "['DEU', 'ANDROID', 'FEMALE', '19', '23']\n",
+      "['CAN', 'ANDROID', 'MALE', '0', '18']\n",
+      "['DEU', 'ANDROID', 'MALE', '0', '18']\n",
+      "['USA', 'ANDROID', 'FEMALE', '41', '66']\n",
+      "['DEU', 'ANDROID', 'MALE', '24', '30']\n",
+      "['BRA', 'ANDROID', 'FEMALE', '19', '23']\n",
+      "['USA', 'ANDROID', 'FEMALE', '0', '18']\n",
+      "['BRA', 'ANDROID', 'MALE', '19', '23']\n",
+      "['USA', 'IOS', 'MALE', '19', '23']\n",
+      "['TUR', 'IOS', 'MALE', '0', '18']\n",
+      "['USA', 'IOS', 'FEMALE', '24', '30']\n",
+      "['USA', 'IOS', 'MALE', '0', '18']\n",
+      "['BRA', 'IOS', 'MALE', '31', '40']\n",
+      "['USA', 'ANDROID', 'MALE', '19', '23']\n",
+      "['USA', 'ANDROID', 'MALE', '31', '40']\n",
+      "['USA', 'ANDROID', 'MALE', '31', '40']\n",
+      "['USA', 'ANDROID', 'FEMALE', '41', '66']\n",
+      "['USA', 'IOS', 'MALE', '0', '18']\n",
+      "['FRA', 'IOS', 'FEMALE', '0', '18']\n",
+      "['USA', 'IOS', 'FEMALE', '0', '18']\n",
+      "['USA', 'IOS', 'MALE', '0', '18']\n",
+      "['BRA', 'IOS', 'FEMALE', '31', '40']\n",
+      "['USA', 'IOS', 'FEMALE', '31', '40']\n",
+      "['TUR', 'IOS', 'FEMALE', '0', '18']\n",
+      "['DEU', 'IOS', 'FEMALE', '24', '30']\n",
+      "['USA', 'IOS', 'MALE', '0', '18']\n",
+      "['USA', 'IOS', 'MALE', '24', '30']\n",
+      "['BRA', 'IOS', 'FEMALE', '24', '30']\n",
+      "['USA', 'IOS', 'FEMALE', '19', '23']\n",
+      "['BRA', 'IOS', 'FEMALE', '41', '66']\n",
+      "['DEU', 'IOS', 'FEMALE', '19', '23']\n",
+      "['USA', 'IOS', 'MALE', '24', '30']\n",
+      "['FRA', 'ANDROID', 'MALE', '24', '30']\n",
+      "['BRA', 'ANDROID', 'FEMALE', '24', '30']\n",
+      "['CAN', 'ANDROID', 'FEMALE', '41', '66']\n",
+      "['USA', 'ANDROID', 'FEMALE', '19', '23']\n",
+      "['USA', 'ANDROID', 'MALE', '19', '23']\n",
+      "['BRA', 'ANDROID', 'MALE', '19', '23']\n",
+      "['TUR', 'ANDROID', 'FEMALE', '19', '23']\n",
+      "['TUR', 'ANDROID', 'FEMALE', '24', '30']\n",
+      "['TUR', 'ANDROID', 'FEMALE', '24', '30']\n",
+      "['DEU', 'ANDROID', 'FEMALE', '19', '23']\n",
+      "['TUR', 'ANDROID', 'FEMALE', '41', '66']\n",
+      "['DEU', 'ANDROID', 'MALE', '19', '23']\n",
+      "['BRA', 'ANDROID', 'FEMALE', '24', '30']\n",
+      "['USA', 'ANDROID', 'MALE', '0', '18']\n",
+      "['USA', 'ANDROID', 'MALE', '41', '66']\n",
+      "['USA', 'ANDROID', 'FEMALE', '41', '66']\n",
+      "['FRA', 'ANDROID', 'FEMALE', '31', '40']\n",
+      "['USA', 'IOS', 'MALE', '24', '30']\n",
+      "['USA', 'ANDROID', 'FEMALE', '24', '30']\n",
+      "['DEU', 'ANDROID', 'FEMALE', '19', '23']\n",
+      "['BRA', 'ANDROID', 'MALE', '24', '30']\n",
+      "['USA', 'ANDROID', 'FEMALE', '0', '18']\n",
+      "['USA', 'IOS', 'FEMALE', '19', '23']\n",
+      "['BRA', 'IOS', 'MALE', '0', '18']\n",
+      "['DEU', 'IOS', 'FEMALE', '0', '18']\n",
+      "['BRA', 'ANDROID', 'FEMALE', '31', '40']\n",
+      "['USA', 'ANDROID', 'MALE', '0', '18']\n",
+      "['CAN', 'IOS', 'FEMALE', '0', '18']\n",
+      "['TUR', 'IOS', 'FEMALE', '0', '18']\n",
+      "['BRA', 'IOS', 'FEMALE', '0', '18']\n",
+      "['FRA', 'IOS', 'FEMALE', '0', '18']\n",
+      "['BRA', 'IOS', 'FEMALE', '41', '66']\n",
+      "['BRA', 'IOS', 'MALE', '41', '66']\n",
+      "['USA', 'IOS', 'MALE', '24', '30']\n",
+      "['BRA', 'IOS', 'FEMALE', '24', '30']\n",
+      "['USA', 'IOS', 'FEMALE', '19', '23']\n",
+      "['BRA', 'IOS', 'MALE', '0', '18']\n",
+      "['BRA', 'IOS', 'FEMALE', '41', '66']\n",
+      "['USA', 'IOS', 'MALE', '41', '66']\n",
+      "['FRA', 'IOS', 'FEMALE', '31', '40']\n",
+      "['FRA', 'IOS', 'MALE', '24', '30']\n",
+      "['DEU', 'IOS', 'FEMALE', '31', '40']\n",
+      "['USA', 'IOS', 'FEMALE', '0', '18']\n",
+      "['DEU', 'IOS', 'MALE', '0', '18']\n",
+      "['USA', 'IOS', 'MALE', '0', '18']\n",
+      "['BRA', 'IOS', 'FEMALE', '19', '23']\n",
+      "['TUR', 'IOS', 'MALE', '0', '18']\n",
+      "['USA', 'IOS', 'MALE', '19', '23']\n",
+      "['USA', 'IOS', 'FEMALE', '19', '23']\n",
+      "['USA', 'IOS', 'FEMALE', '24', '30']\n",
+      "['BRA', 'ANDROID', 'MALE', '0', '18']\n",
+      "['USA', 'ANDROID', 'FEMALE', '0', '18']\n",
+      "['FRA', 'ANDROID', 'FEMALE', '31', '40']\n",
+      "['BRA', 'ANDROID', 'FEMALE', '0', '18']\n",
+      "['TUR', 'ANDROID', 'FEMALE', '19', '23']\n",
+      "['BRA', 'ANDROID', 'MALE', '24', '30']\n",
+      "['FRA', 'ANDROID', 'FEMALE', '0', '18']\n",
+      "['CAN', 'ANDROID', 'FEMALE', '19', '23']\n",
+      "['USA', 'ANDROID', 'FEMALE', '0', '18']\n",
+      "['DEU', 'ANDROID', 'MALE', '0', '18']\n",
+      "['USA', 'IOS', 'MALE', '19', '23']\n",
+      "['DEU', 'IOS', 'FEMALE', '31', '40']\n",
+      "['USA', 'IOS', 'FEMALE', '41', '66']\n",
+      "['FRA', 'IOS', 'MALE', '31', '40']\n",
+      "['DEU', 'IOS', 'FEMALE', '24', '30']\n",
+      "['FRA', 'IOS', 'MALE', '41', '66']\n",
+      "['BRA', 'IOS', 'FEMALE', '24', '30']\n",
+      "['DEU', 'IOS', 'MALE', '31', '40']\n",
+      "['TUR', 'IOS', 'FEMALE', '19', '23']\n",
+      "['TUR', 'IOS', 'FEMALE', '41', '66']\n",
+      "['BRA', 'IOS', 'FEMALE', '41', '66']\n",
+      "['BRA', 'IOS', 'FEMALE', '31', '40']\n",
+      "['BRA', 'IOS', 'FEMALE', '0', '18']\n",
+      "['USA', 'IOS', 'MALE', '19', '23']\n",
+      "['FRA', 'IOS', 'FEMALE', '19', '23']\n",
+      "['DEU', 'IOS', 'FEMALE', '24', '30']\n",
+      "['DEU', 'IOS', 'FEMALE', '0', '18']\n",
+      "['BRA', 'IOS', 'FEMALE', '19', '23']\n",
+      "['USA', 'IOS', 'MALE', '24', '30']\n",
+      "['BRA', 'IOS', 'MALE', '31', '40']\n",
+      "['FRA', 'IOS', 'FEMALE', '24', '30']\n",
+      "['USA', 'ANDROID', 'MALE', '31', '40']\n",
+      "['CAN', 'ANDROID', 'FEMALE', '24', '30']\n",
+      "['CAN', 'ANDROID', 'FEMALE', '19', '23']\n",
+      "['USA', 'ANDROID', 'FEMALE', '24', '30']\n",
+      "['BRA', 'ANDROID', 'MALE', '31', '40']\n",
+      "['USA', 'ANDROID', 'FEMALE', '0', '18']\n",
+      "['DEU', 'IOS', 'FEMALE', '41', '66']\n",
+      "['DEU', 'IOS', 'MALE', '31', '40']\n",
+      "['USA', 'IOS', 'FEMALE', '19', '23']\n",
+      "['DEU', 'IOS', 'MALE', '19', '23']\n",
+      "['CAN', 'ANDROID', 'MALE', '24', '30']\n",
+      "['TUR', 'ANDROID', 'MALE', '41', '66']\n",
+      "['CAN', 'ANDROID', 'MALE', '41', '66']\n",
+      "['BRA', 'ANDROID', 'MALE', '19', '23']\n",
+      "['DEU', 'ANDROID', 'FEMALE', '19', '23']\n",
+      "['BRA', 'ANDROID', 'MALE', '19', '23']\n",
+      "['BRA', 'ANDROID', 'FEMALE', '19', '23']\n",
+      "['TUR', 'ANDROID', 'FEMALE', '19', '23']\n",
+      "['DEU', 'ANDROID', 'MALE', '24', '30']\n",
+      "['USA', 'ANDROID', 'FEMALE', '31', '40']\n",
+      "['USA', 'ANDROID', 'FEMALE', '24', '30']\n",
+      "['DEU', 'ANDROID', 'FEMALE', '0', '18']\n",
+      "['FRA', 'ANDROID', 'MALE', '0', '18']\n",
+      "['BRA', 'ANDROID', 'MALE', '24', '30']\n",
+      "['BRA', 'ANDROID', 'FEMALE', '24', '30']\n",
+      "['BRA', 'ANDROID', 'MALE', '41', '66']\n",
+      "['FRA', 'ANDROID', 'FEMALE', '24', '30']\n",
+      "['USA', 'ANDROID', 'FEMALE', '41', '66']\n",
+      "['USA', 'ANDROID', 'MALE', '31', '40']\n",
+      "['USA', 'ANDROID', 'MALE', '41', '66']\n",
+      "['FRA', 'ANDROID', 'MALE', '0', '18']\n",
+      "['TUR', 'ANDROID', 'FEMALE', '0', '18']\n",
+      "['BRA', 'ANDROID', 'MALE', '41', '66']\n",
+      "['USA', 'ANDROID', 'FEMALE', '24', '30']\n",
+      "['CAN', 'ANDROID', 'MALE', '24', '30']\n",
+      "['BRA', 'ANDROID', 'FEMALE', '19', '23']\n",
+      "['BRA', 'ANDROID', 'MALE', '24', '30']\n",
+      "['CAN', 'ANDROID', 'FEMALE', '0', '18']\n",
+      "['BRA', 'ANDROID', 'MALE', '0', '18']\n",
+      "['USA', 'ANDROID', 'FEMALE', '31', '40']\n",
+      "['FRA', 'ANDROID', 'MALE', '0', '18']\n",
+      "['FRA', 'ANDROID', 'MALE', '24', '30']\n",
+      "['BRA', 'ANDROID', 'MALE', '41', '66']\n",
+      "['FRA', 'IOS', 'MALE', '31', '40']\n",
+      "['CAN', 'IOS', 'MALE', '31', '40']\n",
+      "['USA', 'IOS', 'FEMALE', '41', '66']\n",
+      "['CAN', 'IOS', 'FEMALE', '0', '18']\n",
+      "['DEU', 'IOS', 'MALE', '19', '23']\n",
+      "['DEU', 'IOS', 'FEMALE', '24', '30']\n",
+      "['DEU', 'IOS', 'MALE', '31', '40']\n",
+      "['DEU', 'IOS', 'MALE', '24', '30']\n",
+      "['DEU', 'IOS', 'FEMALE', '31', '40']\n",
+      "['USA', 'IOS', 'MALE', '41', '66']\n",
+      "['TUR', 'IOS', 'FEMALE', '41', '66']\n",
+      "['BRA', 'IOS', 'MALE', '31', '40']\n",
+      "['USA', 'ANDROID', 'MALE', '31', '40']\n",
+      "['USA', 'ANDROID', 'MALE', '41', '66']\n",
+      "['USA', 'ANDROID', 'FEMALE', '24', '30']\n",
+      "['USA', 'IOS', 'MALE', '31', '40']\n",
+      "['USA', 'IOS', 'MALE', '31', '40']\n",
+      "['BRA', 'IOS', 'MALE', '31', '40']\n",
+      "['USA', 'IOS', 'FEMALE', '24', '30']\n",
+      "['TUR', 'IOS', 'MALE', '31', '40']\n",
+      "['TUR', 'ANDROID', 'FEMALE', '0', '18']\n",
+      "['BRA', 'ANDROID', 'MALE', '24', '30']\n",
+      "['USA', 'ANDROID', 'FEMALE', '31', '40']\n",
+      "['USA', 'ANDROID', 'FEMALE', '31', '40']\n",
+      "['DEU', 'ANDROID', 'FEMALE', '41', '66']\n",
+      "['FRA', 'ANDROID', 'FEMALE', '0', '18']\n",
+      "['BRA', 'ANDROID', 'FEMALE', '31', '40']\n",
+      "['TUR', 'ANDROID', 'MALE', '19', '23']\n",
+      "['FRA', 'ANDROID', 'FEMALE', '19', '23']\n",
+      "['DEU', 'ANDROID', 'FEMALE', '0', '18']\n",
+      "['BRA', 'ANDROID', 'FEMALE', '24', '30']\n",
+      "['USA', 'ANDROID', 'MALE', '24', '30']\n",
+      "['CAN', 'ANDROID', 'FEMALE', '0', '18']\n",
+      "['TUR', 'ANDROID', 'FEMALE', '31', '40']\n",
+      "['FRA', 'ANDROID', 'MALE', '19', '23']\n",
+      "['USA', 'ANDROID', 'MALE', '41', '66']\n",
+      "['FRA', 'ANDROID', 'FEMALE', '24', '30']\n",
+      "['BRA', 'ANDROID', 'FEMALE', '31', '40']\n",
+      "['TUR', 'ANDROID', 'FEMALE', '24', '30']\n",
+      "['USA', 'ANDROID', 'MALE', '31', '40']\n",
+      "['USA', 'ANDROID', 'MALE', '24', '30']\n",
+      "['BRA', 'ANDROID', 'FEMALE', '24', '30']\n",
+      "['TUR', 'ANDROID', 'MALE', '19', '23']\n",
+      "['USA', 'ANDROID', 'MALE', '24', '30']\n",
+      "['BRA', 'ANDROID', 'MALE', '31', '40']\n",
+      "['BRA', 'ANDROID', 'MALE', '19', '23']\n",
+      "['TUR', 'ANDROID', 'MALE', '19', '23']\n",
+      "['TUR', 'ANDROID', 'MALE', '41', '66']\n",
+      "['BRA', 'ANDROID', 'FEMALE', '31', '40']\n",
+      "['BRA', 'ANDROID', 'MALE', '41', '66']\n",
+      "['USA', 'ANDROID', 'FEMALE', '31', '40']\n",
+      "['USA', 'ANDROID', 'FEMALE', '24', '30']\n",
+      "['CAN', 'ANDROID', 'FEMALE', '24', '30']\n",
+      "['FRA', 'ANDROID', 'MALE', '0', '18']\n",
+      "['DEU', 'ANDROID', 'MALE', '24', '30']\n"
+     ]
+    },
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>customers_level_based</th>\n",
+       "      <th>PRICE</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <td>BRA_ANDROID_MALE_41_66</td>\n",
+       "      <td>59.0</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1</th>\n",
+       "      <td>USA_ANDROID_MALE_31_40</td>\n",
+       "      <td>59.0</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2</th>\n",
+       "      <td>FRA_ANDROID_FEMALE_24_30</td>\n",
+       "      <td>59.0</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>3</th>\n",
+       "      <td>USA_ANDROID_MALE_31_40</td>\n",
+       "      <td>54.0</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>4</th>\n",
+       "      <td>DEU_ANDROID_FEMALE_31_40</td>\n",
+       "      <td>49.0</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "      customers_level_based  PRICE\n",
+       "0    BRA_ANDROID_MALE_41_66   59.0\n",
+       "1    USA_ANDROID_MALE_31_40   59.0\n",
+       "2  FRA_ANDROID_FEMALE_24_30   59.0\n",
+       "3    USA_ANDROID_MALE_31_40   54.0\n",
+       "4  DEU_ANDROID_FEMALE_31_40   49.0"
+      ]
+     },
+     "execution_count": 18,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "#Yeni seviye tabanlı müşterileri (persona) tanımlayınız ve veri setine değişken olarak ekleyiniz.\n",
+    "# Yeni eklenecek değişkenin adı: customers_level_based\n",
+    "# Önceki soruda elde edeceğiniz çıktıdaki gözlemleri bir araya getirerek customers_level_based değişkenini\n",
+    "# oluşturmanız gerekmektedir.\n",
+    "\n",
+    "customers_level_based=[a.upper()+\"_\"+b.upper()+\"_\"+c.upper()+\"_\"+d for a,b,c,d in zip(agg_df['COUNTRY'],df['SOURCE'],agg_df['SEX'],agg_df['AGE_CAT'].astype(str))]\n",
+    "\n",
+    "agg_df[\"customers_level_based\"]=customers_level_based\n",
+    "agg_df=agg_df[[\"customers_level_based\",\"PRICE\"]]\n",
+    "\n",
+    "for i in agg_df[\"customers_level_based\"].values:\n",
+    "    print(i.split(\"_\"))\n",
+    "\n",
+    "agg_df.head()\n",
+    "\n",
+    "\n",
+    "\n",
+    "#agg_df.groupby(\"customers_level_based\").agg({\"PRICE\": \"mean\"})\n",
+    "#agg_df=agg_df[[\"customers_level_based\",\"PRICE\"]]\n",
+    "#agg_df.reset_index()\n",
+    "\n",
+    "#agg_df.head()\n",
+    "\n",
+    "#agg_df[\"customers_level_based\"].value_counts()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 19,
+   "id": "3c87c7d8",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2024-09-02T18:04:23.087718Z",
+     "iopub.status.busy": "2024-09-02T18:04:23.087348Z",
+     "iopub.status.idle": "2024-09-02T18:04:23.101219Z",
+     "shell.execute_reply": "2024-09-02T18:04:23.100102Z"
+    },
+    "papermill": {
+     "duration": 0.025701,
+     "end_time": "2024-09-02T18:04:23.103727",
+     "exception": false,
+     "start_time": "2024-09-02T18:04:23.078026",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>customers_level_based</th>\n",
+       "      <th>PRICE</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <td>BRA_ANDROID_FEMALE_0_18</td>\n",
+       "      <td>35.464646</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1</th>\n",
+       "      <td>BRA_ANDROID_FEMALE_19_23</td>\n",
+       "      <td>35.743035</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2</th>\n",
+       "      <td>BRA_ANDROID_FEMALE_24_30</td>\n",
+       "      <td>33.508929</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>3</th>\n",
+       "      <td>BRA_ANDROID_FEMALE_31_40</td>\n",
+       "      <td>27.934381</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>4</th>\n",
+       "      <td>BRA_ANDROID_FEMALE_41_66</td>\n",
+       "      <td>38.787879</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "      customers_level_based      PRICE\n",
+       "0   BRA_ANDROID_FEMALE_0_18  35.464646\n",
+       "1  BRA_ANDROID_FEMALE_19_23  35.743035\n",
+       "2  BRA_ANDROID_FEMALE_24_30  33.508929\n",
+       "3  BRA_ANDROID_FEMALE_31_40  27.934381\n",
+       "4  BRA_ANDROID_FEMALE_41_66  38.787879"
+      ]
+     },
+     "execution_count": 19,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "agg_df[\"customers_level_based\"].value_counts()\n",
+    "\n",
+    "agg_df=agg_df.groupby(\"customers_level_based\").agg({\"PRICE\":\"mean\"})\n",
+    "agg_df=agg_df.reset_index()\n",
+    "agg_df.head()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 20,
+   "id": "7fd76875",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2024-09-02T18:04:23.122400Z",
+     "iopub.status.busy": "2024-09-02T18:04:23.121972Z",
+     "iopub.status.idle": "2024-09-02T18:04:23.133244Z",
+     "shell.execute_reply": "2024-09-02T18:04:23.132223Z"
+    },
+    "papermill": {
+     "duration": 0.023218,
+     "end_time": "2024-09-02T18:04:23.135202",
+     "exception": false,
+     "start_time": "2024-09-02T18:04:23.111984",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>customers_level_based</th>\n",
+       "      <th>PRICE</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <td>BRA_ANDROID_FEMALE_0_18</td>\n",
+       "      <td>35.464646</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1</th>\n",
+       "      <td>BRA_ANDROID_FEMALE_19_23</td>\n",
+       "      <td>35.743035</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2</th>\n",
+       "      <td>BRA_ANDROID_FEMALE_24_30</td>\n",
+       "      <td>33.508929</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>3</th>\n",
+       "      <td>BRA_ANDROID_FEMALE_31_40</td>\n",
+       "      <td>27.934381</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>4</th>\n",
+       "      <td>BRA_ANDROID_FEMALE_41_66</td>\n",
+       "      <td>38.787879</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "      customers_level_based      PRICE\n",
+       "0   BRA_ANDROID_FEMALE_0_18  35.464646\n",
+       "1  BRA_ANDROID_FEMALE_19_23  35.743035\n",
+       "2  BRA_ANDROID_FEMALE_24_30  33.508929\n",
+       "3  BRA_ANDROID_FEMALE_31_40  27.934381\n",
+       "4  BRA_ANDROID_FEMALE_41_66  38.787879"
+      ]
+     },
+     "execution_count": 20,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "#yapılan işlemi doğrulamak için \n",
+    "agg_df[\"customers_level_based\"].value_counts()\n",
+    "agg_df.head()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 21,
+   "id": "2732cc98",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2024-09-02T18:04:23.153956Z",
+     "iopub.status.busy": "2024-09-02T18:04:23.153281Z",
+     "iopub.status.idle": "2024-09-02T18:04:23.176957Z",
+     "shell.execute_reply": "2024-09-02T18:04:23.175670Z"
+    },
+    "papermill": {
+     "duration": 0.036121,
+     "end_time": "2024-09-02T18:04:23.179663",
+     "exception": false,
+     "start_time": "2024-09-02T18:04:23.143542",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "/tmp/ipykernel_17/1505780171.py:6: FutureWarning: The default of observed=False is deprecated and will be changed to True in a future version of pandas. Pass observed=False to retain current behavior or observed=True to adopt the future default and silence this warning.\n",
+      "  agg_df.groupby(\"SEGMENT\").agg({\"PRICE\": [\"mean\",\"max\",\"sum\"]})\n"
+     ]
+    },
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>customers_level_based</th>\n",
+       "      <th>PRICE</th>\n",
+       "      <th>SEGMENT</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <td>BRA_ANDROID_FEMALE_0_18</td>\n",
+       "      <td>35.464646</td>\n",
+       "      <td>B</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1</th>\n",
+       "      <td>BRA_ANDROID_FEMALE_19_23</td>\n",
+       "      <td>35.743035</td>\n",
+       "      <td>B</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2</th>\n",
+       "      <td>BRA_ANDROID_FEMALE_24_30</td>\n",
+       "      <td>33.508929</td>\n",
+       "      <td>C</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>3</th>\n",
+       "      <td>BRA_ANDROID_FEMALE_31_40</td>\n",
+       "      <td>27.934381</td>\n",
+       "      <td>D</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>4</th>\n",
+       "      <td>BRA_ANDROID_FEMALE_41_66</td>\n",
+       "      <td>38.787879</td>\n",
+       "      <td>A</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "      customers_level_based      PRICE SEGMENT\n",
+       "0   BRA_ANDROID_FEMALE_0_18  35.464646       B\n",
+       "1  BRA_ANDROID_FEMALE_19_23  35.743035       B\n",
+       "2  BRA_ANDROID_FEMALE_24_30  33.508929       C\n",
+       "3  BRA_ANDROID_FEMALE_31_40  27.934381       D\n",
+       "4  BRA_ANDROID_FEMALE_41_66  38.787879       A"
+      ]
+     },
+     "execution_count": 21,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "#Yeni müşterileri (Örnek: USA_ANDROID_MALE_0_18) PRICE’a göre 4 segmenteayırınız.\n",
+    "# SegmentleriSEGMENTisimlendirmesi ile değişken olarak agg_df’e ekleyiniz.\n",
+    "# Segmentleri betimleyiniz (Segmentlere göre groupby yapıp price,mean, max, sum’larını alınız)\n",
+    "\n",
+    "agg_df[\"SEGMENT\"]=pd.qcut(agg_df[\"PRICE\"],4,labels=[\"D\",\"C\",\"B\",\"A\"])\n",
+    "agg_df.groupby(\"SEGMENT\").agg({\"PRICE\": [\"mean\",\"max\",\"sum\"]})\n",
+    "agg_df.head()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 22,
+   "id": "60f1a20c",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2024-09-02T18:04:23.199308Z",
+     "iopub.status.busy": "2024-09-02T18:04:23.198555Z",
+     "iopub.status.idle": "2024-09-02T18:04:23.210114Z",
+     "shell.execute_reply": "2024-09-02T18:04:23.209086Z"
+    },
+    "papermill": {
+     "duration": 0.024122,
+     "end_time": "2024-09-02T18:04:23.212594",
+     "exception": false,
+     "start_time": "2024-09-02T18:04:23.188472",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>customers_level_based</th>\n",
+       "      <th>PRICE</th>\n",
+       "      <th>SEGMENT</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>70</th>\n",
+       "      <td>TUR_ANDROID_FEMALE_31_40</td>\n",
+       "      <td>37.083333</td>\n",
+       "      <td>A</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "       customers_level_based      PRICE SEGMENT\n",
+       "70  TUR_ANDROID_FEMALE_31_40  37.083333       A"
+      ]
+     },
+     "execution_count": 22,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "#33 yaşında ANDROID kullanan bir Türk kadını hangi segmente aittir ve ortalama ne kadar gelir kazandırması beklenir?\n",
+    "\n",
+    "new_user=\"TUR_ANDROID_FEMALE_31_40\"\n",
+    "agg_df[agg_df[\"customers_level_based\"]==new_user]\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 23,
+   "id": "e92f95a0",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2024-09-02T18:04:23.232467Z",
+     "iopub.status.busy": "2024-09-02T18:04:23.232066Z",
+     "iopub.status.idle": "2024-09-02T18:04:23.243566Z",
+     "shell.execute_reply": "2024-09-02T18:04:23.242573Z"
+    },
+    "papermill": {
+     "duration": 0.024066,
+     "end_time": "2024-09-02T18:04:23.245691",
+     "exception": false,
+     "start_time": "2024-09-02T18:04:23.221625",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>customers_level_based</th>\n",
+       "      <th>PRICE</th>\n",
+       "      <th>SEGMENT</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>62</th>\n",
+       "      <td>FRA_IOS_FEMALE_31_40</td>\n",
+       "      <td>33.0</td>\n",
+       "      <td>C</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "   customers_level_based  PRICE SEGMENT\n",
+       "62  FRA_IOS_FEMALE_31_40   33.0       C"
+      ]
+     },
+     "execution_count": 23,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "# 35 yaşında IOS kullanan bir Fransız kadını hangi segmenteaittir ve ortalama ne kadar gelir kazandırması beklenir?\n",
+    "new_user2=\"FRA_IOS_FEMALE_31_40\"\n",
+    "agg_df[agg_df[\"customers_level_based\"]==new_user2]"
+   ]
+  }
+ ],
+ "metadata": {
+  "kaggle": {
+   "accelerator": "none",
+   "dataSources": [
+    {
+     "datasetId": 5626844,
+     "sourceId": 9294057,
+     "sourceType": "datasetVersion"
+    }
+   ],
+   "dockerImageVersionId": 30761,
+   "isGpuEnabled": false,
+   "isInternetEnabled": true,
+   "language": "python",
+   "sourceType": "notebook"
+  },
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.10.14"
+  },
+  "papermill": {
+   "default_parameters": {},
+   "duration": 4.908676,
+   "end_time": "2024-09-02T18:04:23.673253",
+   "environment_variables": {},
+   "exception": null,
+   "input_path": "__notebook__.ipynb",
+   "output_path": "__notebook__.ipynb",
+   "parameters": {},
+   "start_time": "2024-09-02T18:04:18.764577",
+   "version": "2.6.0"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}
